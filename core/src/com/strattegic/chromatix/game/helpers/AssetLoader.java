@@ -16,6 +16,9 @@ public class AssetLoader
 	public static TextureRegion ballYellow;
 	public static TextureRegion ballBlue;
 	public static Skin uiSkin;
+	public static Texture logo;
+	public static Texture bg_grey;
+	
 	public static Texture heartFull;
 	public static Texture heartEmpty;
 	
@@ -53,7 +56,10 @@ public class AssetLoader
 		ballYellow = new TextureRegion( new Texture( Gdx.files.internal("ball_yellow.png") ) );
 		ballBlue = new TextureRegion( new Texture( Gdx.files.internal("ball_blue.png") ) );
 		
-		wheel = new TextureRegion( new Texture( Gdx.files.internal("rad/RAD_1110x1110.png") ) );
+		wheel = new TextureRegion( new Texture( Gdx.files.internal("rad/wheel.png") ) );
+		
+		logo = new Texture( Gdx.files.internal( "ui/chromatix.png" ) );
+		bg_grey = new Texture(Gdx.files.internal("ui/bg_grey.png") );
 		
 		textButtonStyle = new TextButtonStyle();
 		textButtonStyle.up = new TextureRegionDrawable( new TextureRegion( new Texture( Gdx.files.internal("uipack/PNG/blue_button09.png"), true ) ) );

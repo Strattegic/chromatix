@@ -1,89 +1,80 @@
 package com.strattegic.chromatix.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.input.GestureDetector.GestureAdapter;
+import com.badlogic.gdx.InputProcessor;
+import com.strattegic.chromatix.game.entities.Wheel;
 import com.strattegic.chromatix.game.helpers.Constants;
 import com.strattegic.chromatix.game.screens.GameScreen;
 
-public class GameScreenInputHandler extends GestureAdapter 
+public class GameScreenInputHandler implements InputProcessor 
 {
 	private GameScreen screen;
 
-	public GameScreenInputHandler( GameScreen screen ) 
+	public GameScreenInputHandler(GameScreen screen) 
 	{
-		Gdx.app.log("Input", "Input initialized");
 		this.screen = screen;
 	}
 
 	@Override
-	public boolean touchDown(float x, float y, int pointer, int button) 
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) 
 	{
-		// When clicked in the lower half
-		if( y >= Constants.HEIGHT / 2 )
+		if( screenY > Gdx.graphics.getHeight() * 0.2 )
 		{
-			// Clicked on the right side
-			if( x >= Constants.WIDTH / 2 )
-			{
-				onRight();
-			}
-			// Clicked on the left side
-			else
-			{
-				onLeft();
-			}
+			screen.getwheel().setRotationFromMiddle( screenX, screenY, screen.getViewport().getScreenWidth(), screen.getViewport().getScreenHeight() );
 		}
 		return true;
 	}
 
 	@Override
-	public boolean fling(float velocityX, float velocityY, int button) {
-		if (Math.abs(velocityX) > Math.abs(velocityY)) {
-			if (velocityX > 0) {
-				onRight();
-			} else {
-				onLeft();
-			}
-		} else {
-			if (velocityY > 0) {
-				onDown();
-			} else {
-				onUp();
-			}
-		}
-		return super.fling(velocityX, velocityY, button);
-	}
-
-	public void onRight() 
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) 
 	{
-//		Gdx.app.log("Input", "Swipe right");
-		if( !screen.getwheel().isRotating() )
+//		System.out.println( "TOUCH UP");
+		if( screen.getwheel().isRotating() )
 		{
-			screen.getwheel().turnRight();
+			screen.getwheel().setRotationAmount( 0 );
 		}
+		return true;
 	}
 
-	private void onUp() 
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) 
 	{
-//		if( !screen.getRad().isRotating() )
-//		{
-//			screen.getRad().turnOneHundredEightyLeft();
-//		}
-	}
-
-	private void onDown() 
-	{
-//		if( !screen.getRad().isRotating() )
-//		{
-//			screen.getRad().turnOneHundredEightyRight();
-//		}
-	}
-
-	private void onLeft() 
-	{
-//		Gdx.app.log("Input", "Swipe left");
-		if( !screen.getwheel().isRotating() )
+		if( screenY > Gdx.graphics.getHeight() * 0.2 )
 		{
-			screen.getwheel().turnLeft();
+			System.out.println( screenY );
+			screen.getwheel().setRotationFromMiddle( screenX, screenY, screen.getViewport().getScreenWidth(), screen.getViewport().getScreenHeight() );
 		}
+		return false;
 	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

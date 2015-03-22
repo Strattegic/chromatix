@@ -2,10 +2,13 @@ package com.strattegic.chromatix.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -22,6 +25,7 @@ public class MainMenuScreen implements Screen
 	private Stage uiStage;
 	private Viewport viewport;
 	
+	private Image logo;
 	private Table mainTable;
 		private Button startGameButton;
 		private Button optionsButton;
@@ -37,6 +41,8 @@ public class MainMenuScreen implements Screen
 	@Override
 	public void show() 
 	{
+		Image bg = new Image( AssetLoader.bg_grey );
+		uiStage.addActor(bg);
 		startGameButton = new TextButton("Start Game", AssetLoader.uiSkin);//"Start Game", new LabelStyle(new BitmapFont(), Color.BLACK ) );
 		startGameButton = new TextButton( "Start", AssetLoader.textButtonStyle );
 		startGameButton.addListener( new ChangeListener() {
@@ -47,6 +53,12 @@ public class MainMenuScreen implements Screen
 	        }
 	    });
 		optionsButton = new TextButton( "Options", AssetLoader.textButtonStyle );
+		
+		logo = new Image( AssetLoader.logo );
+		logo.setPosition(0, uiStage.getHeight()-200);
+		logo.setWidth( 480 );
+		logo.setHeight( 100 );
+		uiStage.addActor( logo );
 		
 		mainTable = new Table();
 		mainTable.add( startGameButton ).size(100, 70).padBottom(0);
@@ -61,7 +73,8 @@ public class MainMenuScreen implements Screen
 	@Override
 	public void render( float delta ) 
 	{
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+		Color bgColor = Constants.COLOR_BACKGROUND;
+        Gdx.gl.glClearColor(bgColor.a, bgColor.b, bgColor.g, bgColor.r);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update( delta );
 		for( Actor a : uiStage.getActors() )

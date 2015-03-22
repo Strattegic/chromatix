@@ -1,12 +1,19 @@
 package com.strattegic.chromatix.game.entities;
 
-public class RadColor 
+public class WheelSegment 
 {
 	private int color;
 	private float minDegree;
 	private float maxDegree;
 	
-	public RadColor( int color, float minDegree, float maxDegree )
+	public WheelSegment( int color )
+	{
+		this.color = color;
+		this.minDegree = 0;
+		this.maxDegree = 0;
+	}
+	
+	public WheelSegment( int color, float minDegree, float maxDegree )
 	{
 		this.color = color;
 		this.minDegree = minDegree;

@@ -2,13 +2,17 @@ package com.strattegic.chromatix.game.helpers;
 
 import java.util.ArrayList;
 
-import com.strattegic.chromatix.game.entities.RadColor;
+import com.badlogic.gdx.graphics.Color;
+import com.strattegic.chromatix.game.entities.WheelSegment;
 
 public class Constants 
 {
 	private static Constants instance = null;
 	
-	public static ArrayList<RadColor> list;
+//	public static Color COLOR_BACKGROUND = new Color( 10066329 );
+	public static Color COLOR_BACKGROUND = new Color( 1, 1, 1, 1 );
+	
+	public static ArrayList<WheelSegment> wheelColors;
 	
 	public static final int WIDTH = 480;
 	public static final int HEIGHT = 848;
@@ -23,6 +27,7 @@ public class Constants
 				case 1: return "green";
 				case 2: return "yellow";
 				case 3: return "blue";
+				case 4: return "purple";
 				default: return "DEFAULT";
 			}
 		}
@@ -31,16 +36,22 @@ public class Constants
 		public static final int GREEN = 1;
 		public static final int YELLOW = 2;
 		public static final int BLUE = 3;
+		public static final int PURPLE = 4;
 	}
 	
 	private Constants()
 	{
-		list = new ArrayList<RadColor>();
-		list.add( new RadColor( COLORS.BLUE, 0, 72 ) );
-		list.add( new RadColor( COLORS.GREEN, 72, 144 ) );
-		list.add( new RadColor( COLORS.YELLOW, 144, 216 ) );
-		list.add( new RadColor( COLORS.RED, 216, 288 ) );
-		list.add( new RadColor( COLORS.RED, 288, 360 ) );
+		wheelColors = new ArrayList<WheelSegment>();
+//		wheelColors.add( new WheelColor( COLORS.BLUE, 0, 72 ) );
+//		wheelColors.add( new WheelColor( COLORS.GREEN, 72, 144 ) );
+//		wheelColors.add( new WheelColor( COLORS.YELLOW, 144, 216 ) );
+//		wheelColors.add( new WheelColor( COLORS.PURPLE, 216, 288 ) );
+//		wheelColors.add( new WheelColor( COLORS.RED, 288, 0 ) );
+		wheelColors.add( new WheelSegment( COLORS.BLUE ) );
+		wheelColors.add( new WheelSegment( COLORS.GREEN ) );
+		wheelColors.add( new WheelSegment( COLORS.YELLOW ) );
+//		wheelColors.add( new WheelSegment( COLORS.PURPLE ) );
+		wheelColors.add( new WheelSegment( COLORS.RED ) );
 	}
 	
 	public static Constants getInstance()
@@ -52,8 +63,8 @@ public class Constants
 		return instance;
 	}
 	
-	public ArrayList<RadColor> getRadColors()
+	public ArrayList<WheelSegment> getWheelSegments()
 	{
-		return list;
+		return wheelColors;
 	}
 }

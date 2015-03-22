@@ -6,6 +6,7 @@ import java.util.Iterator;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -28,9 +29,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.strattegic.chromatix.game.ChromatixGame;
+import com.strattegic.chromatix.game.GameScreenInputGestureHandler;
 import com.strattegic.chromatix.game.GameScreenInputHandler;
 import com.strattegic.chromatix.game.entities.Ball;
-import com.strattegic.chromatix.game.entities.ColorWheel;
+import com.strattegic.chromatix.game.entities.Wheel;
 import com.strattegic.chromatix.game.helpers.AssetLoader;
 import com.strattegic.chromatix.game.helpers.Constants;
 
@@ -44,7 +46,7 @@ public class GameScreen implements Screen
 	
 	private ShapeRenderer debugRenderer;
 	   
-	private ColorWheel wheel;
+	private Wheel wheel;
 	private ArrayList<Ball> balls;
 	
 	private int score;
@@ -74,7 +76,8 @@ public class GameScreen implements Screen
 		initGUI();
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(uiStage);
-		inputMultiplexer.addProcessor( new GestureDetector( new GameScreenInputHandler( this ) ) );
+		inputMultiplexer.addProcessor( new GestureDetector( new GameScreenInputGestureHandler( this ) ) );
+		inputMultiplexer.addProcessor( new GameScreenInputHandler( this ) );
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 	
@@ -130,27 +133,36 @@ public class GameScreen implements Screen
 	@Override
 	public void show() 
 	{
-		int maxBalls = 7;
+		int maxBalls = 50;
 		for( int i = 0; i < maxBalls; i++ )
 		{
-			balls.add( new Ball( camera.viewportWidth / 2, 500 + ( i * 100 ) ) );
+			balls.add( new Ball( camera.viewportWidth / 2, 300 + ( i * 200 ) ) );
+			balls.add( new Ball( camera.viewportWidth / 2+50, 300 + ( i * 200+50 ) ) );
+			balls.add( new Ball( camera.viewportWidth / 2-50, 300 + ( i * 200+100 ) ) );
 		}
-		wheel = new ColorWheel( camera.viewportWidth / 2, 20 );
+		wheel = new Wheel( camera.viewportWidth / 2, 100 );
 	}
 
 	@Override
 	public void render(float delta) 
 	{
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+		Color bgColor = Constants.COLOR_BACKGROUND;
+        Gdx.gl.glClearColor(bgColor.a, bgColor.b, bgColor.g, bgColor.r);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		batch.begin();
+		
+		// Draw Background Image
+		batch.draw( AssetLoader.bg_grey, 0, 0 );
+        
 		if( !gameOver )
 		{
 			debugRenderer.begin(ShapeType.Filled);
 			debugRenderer.setColor(Color.RED);
+			debugRenderer.rect(Gdx.graphics.getWidth() / 2 - 1, 0, 2, Gdx.graphics.getHeight());
 			camera.update();
 			
 			batch.setProjectionMatrix(camera.combined);
-			batch.begin();
 			
 			update( delta );
 	//		batch.draw( wheel.getTexture(), wheel.getX() - wheel.getWidth() / 2, wheel.getY(), wheel.getWidth(), wheel.getHeight() );
@@ -161,10 +173,11 @@ public class GameScreen implements Screen
 	//			debugRenderer.circle(b.getBoundingCircle().x, b.getBoundingCircle().y, b.getBoundingCircle().radius);
 			    batch.draw( b.getTexture(), b.getX() - b.getWidth() / 2, b.getY(), b.getWidth(), b.getHeight() );
 			}
-			batch.end();
 			debugRenderer.end();
 		}
 		uiStage.draw();
+		
+		batch.end();
 	}
 	
 	public void update( float delta )
@@ -183,17 +196,17 @@ public class GameScreen implements Screen
 				{
 	//				Gdx.app.log("Ball_Hit_wheel", "Ball hit => Ball("+ColorWheel.COLORS.getName( b.getColor() )+") - Rad("+Rad.COLORS.getName( rad.getCurrentColorTop() )+")");
 					// A Ball entered the TheRad
-					if( b.getColor() == wheel.getCurrentColorTop() )
+					if( b.getColor() == wheel.getCurrentHitColor( b.getBoundingCircle() ) )
 					{
 						// The colors match
-						score++;
-						scoreLabel.setText( "Score: "+score );
+//						score++;
+//						scoreLabel.setText( "Score: "+score );
 					}
 					else
 					{
 						// The colors don't match
-						lives--;
-						livesChanged = true;
+//						lives--;
+//						livesChanged = true;
 					}
 					i.remove();
 					ballRemoved = true;
@@ -261,9 +274,19 @@ public class GameScreen implements Screen
 
 	}
 
-	public ColorWheel getwheel() 
+	public Wheel getwheel() 
 	{
 		return wheel;
+	}
+	
+	public Viewport getViewport()
+	{
+		return viewport;
+	}
+	
+	public Camera getCamera()
+	{
+		return camera;
 	}
 
 }
