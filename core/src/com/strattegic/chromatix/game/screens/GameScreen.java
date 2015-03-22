@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -35,6 +36,7 @@ import com.strattegic.chromatix.game.entities.Ball;
 import com.strattegic.chromatix.game.entities.Wheel;
 import com.strattegic.chromatix.game.helpers.AssetLoader;
 import com.strattegic.chromatix.game.helpers.Constants;
+import com.strattegic.chromatix.game.helpers.Utils;
 
 public class GameScreen implements Screen 
 {
@@ -137,10 +139,10 @@ public class GameScreen implements Screen
 		for( int i = 0; i < maxBalls; i++ )
 		{
 			balls.add( new Ball( camera.viewportWidth / 2, 300 + ( i * 200 ) ) );
-			balls.add( new Ball( camera.viewportWidth / 2+50, 300 + ( i * 200+50 ) ) );
-			balls.add( new Ball( camera.viewportWidth / 2-50, 300 + ( i * 200+100 ) ) );
+//			balls.add( new Ball( camera.viewportWidth / 2+50, 300 + ( i * 200+50 ) ) );
+//			balls.add( new Ball( camera.viewportWidth / 2-50, 300 + ( i * 200+100 ) ) );
 		}
-		wheel = new Wheel( camera.viewportWidth / 2, 100 );
+		wheel = new Wheel( camera.viewportWidth / 2, 200 );
 	}
 
 	@Override
@@ -166,12 +168,22 @@ public class GameScreen implements Screen
 			
 			update( delta );
 	//		batch.draw( wheel.getTexture(), wheel.getX() - wheel.getWidth() / 2, wheel.getY(), wheel.getWidth(), wheel.getHeight() );
-			batch.draw( wheel.getTexture(), wheel.getX() - wheel.getWidth() / 2, wheel.getY(), wheel.getWidth() / 2, wheel.getHeight() / 2, 
+			batch.draw( wheel.getTexture(), wheel.getX() - wheel.getWidth() / 2, wheel.getY() - wheel.getHeight() / 2, wheel.getWidth() / 2, wheel.getHeight() / 2, 
 					wheel.getWidth(), wheel.getHeight(), 1f, 1f, wheel.getRotation());
+			
+			Vector2 middleWheel = new Vector2( wheel.getX() , wheel.getY() + wheel.getHeight() / 2 );
+			debugRenderer.setColor( Color.BLACK );
+			debugRenderer.circle(wheel.getX(), wheel.getY(), 6);
+//			debugRenderer.circle(wheel.getBoundingCircle().x, wheel.getBoundingCircle().y, wheel.getBoundingCircle().radius);
+			
 			for( Ball b : balls )
 			{
 	//			debugRenderer.circle(b.getBoundingCircle().x, b.getBoundingCircle().y, b.getBoundingCircle().radius);
-			    batch.draw( b.getTexture(), b.getX() - b.getWidth() / 2, b.getY(), b.getWidth(), b.getHeight() );
+			    batch.draw( b.getTexture(), b.getX() - b.getWidth() / 2, b.getY() - b.getHeight() / 2, b.getWidth(), b.getHeight() );
+			    
+				Vector2 middleBall = new Vector2( b.getX() , b.getY() );
+				debugRenderer.setColor( Color.BLACK );
+				debugRenderer.circle(middleBall.x, middleBall.y, 2);
 			}
 			debugRenderer.end();
 		}
@@ -194,20 +206,22 @@ public class GameScreen implements Screen
 				b.update( delta );
 				if( b.getBoundingCircle().overlaps( wheel.getBoundingCircle() ) )
 				{
-	//				Gdx.app.log("Ball_Hit_wheel", "Ball hit => Ball("+ColorWheel.COLORS.getName( b.getColor() )+") - Rad("+Rad.COLORS.getName( rad.getCurrentColorTop() )+")");
-					// A Ball entered the TheRad
-					if( b.getColor() == wheel.getCurrentHitColor( b.getBoundingCircle() ) )
-					{
-						// The colors match
-//						score++;
-//						scoreLabel.setText( "Score: "+score );
-					}
-					else
-					{
-						// The colors don't match
-//						lives--;
-//						livesChanged = true;
-					}
+					// A Ball entered the Wheel
+					// Determine where it hit
+					Utils.calculateAngleFromHit(b, wheel);
+					
+//					if( b.getColor() == wheel.getCurrentHitColor( b.getBoundingCircle() ) )
+//					{
+//						// The colors match
+////						score++;
+////						scoreLabel.setText( "Score: "+score );
+//					}
+//					else
+//					{
+//						// The colors don't match
+////						lives--;
+////						livesChanged = true;
+//					}
 					i.remove();
 					ballRemoved = true;
 					break;

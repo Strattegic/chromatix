@@ -47,11 +47,11 @@ public class Constants
 //		wheelColors.add( new WheelColor( COLORS.YELLOW, 144, 216 ) );
 //		wheelColors.add( new WheelColor( COLORS.PURPLE, 216, 288 ) );
 //		wheelColors.add( new WheelColor( COLORS.RED, 288, 0 ) );
-		wheelColors.add( new WheelSegment( COLORS.BLUE ) );
-		wheelColors.add( new WheelSegment( COLORS.GREEN ) );
-		wheelColors.add( new WheelSegment( COLORS.YELLOW ) );
+		wheelColors.add( new WheelSegment( COLORS.RED, -60, 60 ) );
+		wheelColors.add( new WheelSegment( COLORS.BLUE, 60, 180 ) );
+		wheelColors.add( new WheelSegment( COLORS.GREEN, 180, 300 ) );
+//		wheelColors.add( new WheelSegment( COLORS.YELLOW ) );
 //		wheelColors.add( new WheelSegment( COLORS.PURPLE ) );
-		wheelColors.add( new WheelSegment( COLORS.RED ) );
 	}
 	
 	public static Constants getInstance()

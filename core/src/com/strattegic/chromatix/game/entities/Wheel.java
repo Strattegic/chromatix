@@ -29,7 +29,7 @@ public class Wheel extends Entity
 	@Override
 	public void update( float delta ) 
 	{
-		boundingCircle.set( getX(), getY() + getWidth() / 2, getWidth() / 2 );
+		boundingCircle.set( getX(), getY(), getWidth() / 2 );
 		// The wheel is free to move
 		if( rotationAmount != 0 )
 		{
