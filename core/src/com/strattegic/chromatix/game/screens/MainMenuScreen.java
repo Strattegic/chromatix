@@ -4,10 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.strattegic.chromatix.game.ChromatixGame;
 import com.strattegic.chromatix.game.helpers.AssetLoader;
 import com.strattegic.chromatix.game.helpers.Constants;
+import com.strattegic.chromatix.game.helpers.GameData;
 
 public class MainMenuScreen implements Screen 
 {
@@ -29,11 +30,13 @@ public class MainMenuScreen implements Screen
 	private Table mainTable;
 		private Button startGameButton;
 		private Button optionsButton;
+		
+		private CheckBox musicCheck, soundCheck;
 
 	public MainMenuScreen( ChromatixGame game )
 	{
 		this.game = game;
-		viewport = new FitViewport( Constants.WIDTH, Constants.HEIGHT );
+		viewport = new FitViewport( Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
 		uiStage = new Stage( viewport );
 		Gdx.input.setInputProcessor(uiStage);
 	}
@@ -41,14 +44,12 @@ public class MainMenuScreen implements Screen
 	@Override
 	public void show() 
 	{
-		Image bg = new Image( AssetLoader.bg_grey );
-		uiStage.addActor(bg);
-		startGameButton = new TextButton("Start Game", AssetLoader.uiSkin);//"Start Game", new LabelStyle(new BitmapFont(), Color.BLACK ) );
 		startGameButton = new TextButton( "Start", AssetLoader.textButtonStyle );
 		startGameButton.addListener( new ChangeListener() {
 	        @Override
 	        public void changed (ChangeEvent event, Actor actor) 
 	        {
+	        	AssetLoader.SOUND_CLICK.play( GameData.VOLUME_SOUND );
 	        	game.setScreen( new GameScreen( game ) );
 	        }
 	    });
@@ -61,13 +62,29 @@ public class MainMenuScreen implements Screen
 		uiStage.addActor( logo );
 		
 		mainTable = new Table();
-		mainTable.add( startGameButton ).size(100, 70).padBottom(0);
+		mainTable.add( startGameButton ).size(100, 50).padBottom(20);
 		mainTable.row();
-		mainTable.add( optionsButton ).size(100, 70);
+		mainTable.add( optionsButton ).size(100, 50);
 		
-		mainTable.setX( Constants.WIDTH / 2 );
-		mainTable.setY( Constants.HEIGHT / 2 );
+		mainTable.setX( Gdx.graphics.getWidth() / 2 );
+		mainTable.setY( Gdx.graphics.getHeight() / 2 );
 		uiStage.addActor( mainTable );
+		
+		musicCheck = new CheckBox(" Music", AssetLoader.checkboxStyle);
+		musicCheck.setChecked( GameData.VOLUME_MUSIC > 0 );
+		musicCheck.addListener( new VolumeCheckboxChangeListener() );
+		soundCheck = new CheckBox(" Sound", AssetLoader.checkboxStyle);
+		soundCheck.setChecked( GameData.VOLUME_SOUND > 0 );
+		soundCheck.addListener( new VolumeCheckboxChangeListener() );
+		
+		Table shortSettingsTable = new Table();
+		shortSettingsTable.setWidth( Gdx.graphics.getWidth() );
+		shortSettingsTable.add( musicCheck ).left();
+		shortSettingsTable.row();
+		shortSettingsTable.add( soundCheck ).left();
+		shortSettingsTable.right().bottom().padRight(20).padBottom(20);
+		uiStage.addActor( shortSettingsTable );
+		uiStage.setDebugAll(false);
 	}
 
 	@Override
@@ -116,6 +133,24 @@ public class MainMenuScreen implements Screen
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
+	}
+	
+	private class VolumeCheckboxChangeListener extends ChangeListener
+	{
+
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			if( actor == musicCheck )
+			{
+				AssetLoader.SOUND_CLICK.play( GameData.VOLUME_SOUND );
+				GameData.VOLUME_MUSIC = ((CheckBox) actor).isChecked() ? 0.8f : 0;
+			}
+			else if( actor == soundCheck )
+			{
+				GameData.VOLUME_SOUND = ((CheckBox) actor).isChecked() ? 0.8f : 0;
+				AssetLoader.SOUND_CLICK.play( GameData.VOLUME_SOUND );
+			}
+		}
 		
 	}
 }

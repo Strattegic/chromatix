@@ -1,30 +1,40 @@
 package com.strattegic.chromatix.game.helpers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.strattegic.chromatix.game.helpers.Constants.COLORS;
 
 public class AssetLoader 
 {
+	public static CheckBoxStyle checkboxStyle;
+
+	public static TextureAtlas atlas;
+	
 	public static TextureRegion ballRed;
 	public static TextureRegion ballGreen;
 	public static TextureRegion ballYellow;
 	public static TextureRegion ballBlue;
 	public static Skin uiSkin;
-	public static Texture logo;
-	public static Texture bg_grey;
+	public static TextureRegion logo;
 	
-	public static Texture heartFull;
-	public static Texture heartEmpty;
+	public static TextureRegion heartFull;
+	public static TextureRegion heartEmpty;
+	public static BitmapFont font_quicksand;
 	
 	public static TextButtonStyle textButtonStyle;
 	
 	public static TextureRegion wheel;
+	
+	public static Sound SOUND_CLICK;
 	
 	public static TextureRegion getBall( int color )
 	{
@@ -48,22 +58,33 @@ public class AssetLoader
 	
 	public static void load() 
 	{
-		heartFull = new Texture( Gdx.files.internal("ui/hud_heartFull.png") );
-		heartEmpty = new Texture( Gdx.files.internal("ui/hud_heartEmpty.png") );
+		atlas = new TextureAtlas(Gdx.files.internal("packer/dingens.atlas"));
+				
+		heartFull = atlas.findRegion( "hud_heartFull" );
+		heartEmpty = atlas.findRegion( "hud_heartEmpty" );
 		uiSkin = new Skin( Gdx.files.internal("skin/uiskin.json") );
-		ballRed = new TextureRegion( new Texture( Gdx.files.internal("ball_red.png") ) );
-		ballGreen = new TextureRegion( new Texture( Gdx.files.internal("ball_green.png") ) );
-		ballYellow = new TextureRegion( new Texture( Gdx.files.internal("ball_yellow.png") ) );
-		ballBlue = new TextureRegion( new Texture( Gdx.files.internal("ball_blue.png") ) );
 		
-		wheel = new TextureRegion( new Texture( Gdx.files.internal("rad/wheel.png") ) );
+		ballRed = atlas.findRegion( "ball_red" );
+		ballGreen = atlas.findRegion( "ball_green" );
+		ballYellow = atlas.findRegion( "ball_yellow" );
+		ballBlue = atlas.findRegion( "ball_blue" );
 		
-		logo = new Texture( Gdx.files.internal( "ui/chromatix.png" ) );
-		bg_grey = new Texture(Gdx.files.internal("ui/bg_grey.png") );
+		wheel = atlas.findRegion( "wheel" );
+		
+		logo = atlas.findRegion( "chromatix_white" );
+		font_quicksand = new BitmapFont( Gdx.files.internal( "font/generated_quicksand.fnt" ) );
 		
 		textButtonStyle = new TextButtonStyle();
-		textButtonStyle.up = new TextureRegionDrawable( new TextureRegion( new Texture( Gdx.files.internal("uipack/PNG/blue_button09.png"), true ) ) );
-		textButtonStyle.down = new TextureRegionDrawable( new TextureRegion( new Texture( Gdx.files.internal("uipack/PNG/blue_button10.png") ) ) );
+		textButtonStyle.up = new TextureRegionDrawable( atlas.findRegion( "grey_button10" ) );
+		textButtonStyle.down = new TextureRegionDrawable( atlas.findRegion( "grey_button11" ) );
 		textButtonStyle.font = new BitmapFont();
+		textButtonStyle.fontColor = Color.valueOf("333333FF");
+		
+		checkboxStyle = new CheckBoxStyle();
+		checkboxStyle.checkboxOn = new TextureRegionDrawable( atlas.findRegion( "grey_boxCheckmark" ) );
+		checkboxStyle.checkboxOff = new TextureRegionDrawable( atlas.findRegion( "grey_boxCross" ) );
+		checkboxStyle.font = new BitmapFont();
+				
+		SOUND_CLICK = Gdx.audio.newSound(Gdx.files.internal("sounds/menu/click.wav"));
 	}
 }

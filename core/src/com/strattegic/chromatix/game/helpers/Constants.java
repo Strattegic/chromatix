@@ -1,18 +1,11 @@
 package com.strattegic.chromatix.game.helpers;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.Color;
-import com.strattegic.chromatix.game.entities.WheelSegment;
 
 public class Constants 
-{
-	private static Constants instance = null;
-	
+{	
 //	public static Color COLOR_BACKGROUND = new Color( 10066329 );
-	public static Color COLOR_BACKGROUND = new Color( 1, 1, 1, 1 );
-	
-	public static ArrayList<WheelSegment> wheelColors;
+	public static Color COLOR_BACKGROUND = new Color( 4210752 );	
 	
 	public static final int WIDTH = 480;
 	public static final int HEIGHT = 848;
@@ -37,34 +30,5 @@ public class Constants
 		public static final int YELLOW = 2;
 		public static final int BLUE = 3;
 		public static final int PURPLE = 4;
-	}
-	
-	private Constants()
-	{
-		wheelColors = new ArrayList<WheelSegment>();
-//		wheelColors.add( new WheelColor( COLORS.BLUE, 0, 72 ) );
-//		wheelColors.add( new WheelColor( COLORS.GREEN, 72, 144 ) );
-//		wheelColors.add( new WheelColor( COLORS.YELLOW, 144, 216 ) );
-//		wheelColors.add( new WheelColor( COLORS.PURPLE, 216, 288 ) );
-//		wheelColors.add( new WheelColor( COLORS.RED, 288, 0 ) );
-		wheelColors.add( new WheelSegment( COLORS.RED, -60, 60 ) );
-		wheelColors.add( new WheelSegment( COLORS.BLUE, 60, 180 ) );
-		wheelColors.add( new WheelSegment( COLORS.GREEN, 180, 300 ) );
-//		wheelColors.add( new WheelSegment( COLORS.YELLOW ) );
-//		wheelColors.add( new WheelSegment( COLORS.PURPLE ) );
-	}
-	
-	public static Constants getInstance()
-	{
-		if( instance == null )
-		{
-			return new Constants();
-		}
-		return instance;
-	}
-	
-	public ArrayList<WheelSegment> getWheelSegments()
-	{
-		return wheelColors;
 	}
 }

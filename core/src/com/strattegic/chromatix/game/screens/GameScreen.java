@@ -14,9 +14,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -25,9 +23,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.strattegic.chromatix.game.ChromatixGame;
 import com.strattegic.chromatix.game.GameScreenInputGestureHandler;
@@ -36,6 +35,7 @@ import com.strattegic.chromatix.game.entities.Ball;
 import com.strattegic.chromatix.game.entities.Wheel;
 import com.strattegic.chromatix.game.helpers.AssetLoader;
 import com.strattegic.chromatix.game.helpers.Constants;
+import com.strattegic.chromatix.game.helpers.GameData;
 import com.strattegic.chromatix.game.helpers.Utils;
 
 public class GameScreen implements Screen 
@@ -45,14 +45,10 @@ public class GameScreen implements Screen
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	private Viewport viewport;
-	
-	private ShapeRenderer debugRenderer;
-	   
+		   
 	private Wheel wheel;
 	private ArrayList<Ball> balls;
 	
-	private int score;
-	private int lives, maxLives;
 	private boolean gameOver = false;
 	
 	private Stage uiStage;
@@ -62,18 +58,19 @@ public class GameScreen implements Screen
 		private TextButton resetButton;
 		private Table resetTable;
 		private Label resetLabel;
+		private Label resetScoreLabel;
+		
+		Label fpsLabel;
 	
 	public GameScreen( ChromatixGame game )
 	{
 		this.game = game;
-		score = 0;
-		maxLives = 5;
-		lives = maxLives;
+		GameData.LIVES_CURRENT = 5;
+		GameData.SCORE = 0;
 		balls = new ArrayList<Ball>();
 		batch = new SpriteBatch();
-		debugRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera();
-	    viewport = new FitViewport( Constants.WIDTH,Constants.HEIGHT,camera );
+	    viewport = new ExtendViewport( Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera );
 	    viewport.apply();
 		initGUI();
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -86,12 +83,11 @@ public class GameScreen implements Screen
 	private void initGUI()
 	{
 		uiStage = new Stage( viewport );
-		scoreLabel = new Label("Score ", new LabelStyle( new BitmapFont(), new Color(255, 255, 255, 1)) );
-		scoreLabel.setPosition(Constants.WIDTH - 100, Constants.HEIGHT - 70);
+		scoreLabel = new Label("Score: 0", new LabelStyle( new BitmapFont(), new Color(255, 255, 255, 1)) );
+		scoreLabel.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 70);
 		uiStage.addActor( scoreLabel );
 		menuButton = new TextButton("Menu", AssetLoader.uiSkin);
-		menuButton.setPosition(Constants.WIDTH*0.02f, Constants.HEIGHT*0.96f);
-		uiStage.addActor( menuButton );
+		menuButton.setPosition(Gdx.graphics.getWidth()*0.02f, Gdx.graphics.getHeight()*0.96f);
 		menuButton.addListener( new ChangeListener()
 		{
 			@Override
@@ -100,17 +96,33 @@ public class GameScreen implements Screen
 				game.setScreen( new MainMenuScreen( game ) );
 			}
 		});
-		liveImages = new Image[ lives ];
+		uiStage.addActor( menuButton );
+		
+		liveImages = new Image[ GameData.LIVES_MAX ];
 		for( int i = 0; i < liveImages.length; i++ )
 		{
 			liveImages[i] = new Image( AssetLoader.heartFull );
 			liveImages[i].setSize(29, 25);
-			liveImages[i].setPosition( Constants.WIDTH - 30 - (i*29) - 5, Constants.HEIGHT - 35 );
+			liveImages[i].setPosition( Gdx.graphics.getWidth() - 30 - (i*29) - 5, Gdx.graphics.getHeight() - 35 );
 			uiStage.addActor( liveImages[i] );
 		}
 		
+		fpsLabel = new Label("", AssetLoader.uiSkin);
+		fpsLabel.setY(20);
+//		uiStage.addActor(fpsLabel);
+	}
+	
+	public void setGameOver()
+	{
+		gameOver = true;
+		// Remove all the actors before showing the GameOver Screen
+		for( int i = 0; i < liveImages.length; i++ )
+		{
+			liveImages[i].remove();
+		}
+		scoreLabel.remove();
+		
 		// Reset Container Overlay
-		resetLabel = new Label( "dingens", AssetLoader.uiSkin );
 		resetButton = new TextButton( "Restart", AssetLoader.uiSkin );
 		resetButton.addListener( new ChangeListener()
 		{
@@ -120,16 +132,23 @@ public class GameScreen implements Screen
 				game.setScreen( new GameScreen( game ) );
 			}
 		});
+		resetLabel = new Label( "Restart?", AssetLoader.uiSkin );
+		resetScoreLabel = new Label(""+GameData.SCORE, new LabelStyle( AssetLoader.font_quicksand, Color.WHITE));
+		resetScoreLabel.setFontScale(2f, 2f);
+		resetScoreLabel.setAlignment( Align.center );
+		resetScoreLabel.setColor(0.8f, 0.8f, 0.8f, .5f);
+		
 		resetTable = new Table();
 		resetTable.setColor(1, 1, 0, 1);
+		resetTable.add( resetScoreLabel ).size( Gdx.graphics.getWidth() * 0.9f, 200 );
+		resetTable.row();
 		resetTable.add( resetLabel ).padBottom(20);
 		resetTable.row();
 		resetTable.add( resetButton );
-		resetTable.setPosition(Constants.WIDTH / 2, Constants.HEIGHT / 2);
+		resetTable.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 //		resetTable.debug();
 		
 		uiStage.addActor(resetTable);
-		resetTable.setVisible(false);
 	}
 		
 	@Override
@@ -138,9 +157,7 @@ public class GameScreen implements Screen
 		int maxBalls = 50;
 		for( int i = 0; i < maxBalls; i++ )
 		{
-			balls.add( new Ball( camera.viewportWidth / 2, 300 + ( i * 200 ) ) );
-//			balls.add( new Ball( camera.viewportWidth / 2+50, 300 + ( i * 200+50 ) ) );
-//			balls.add( new Ball( camera.viewportWidth / 2-50, 300 + ( i * 200+100 ) ) );
+			balls.add( new Ball( camera.viewportWidth / 2 + (Utils.rand(-60, 60)), 500 + ( i * 100 + Utils.rand(50, 100) ) ) );
 		}
 		wheel = new Wheel( camera.viewportWidth / 2, 200 );
 	}
@@ -151,45 +168,34 @@ public class GameScreen implements Screen
 		Color bgColor = Constants.COLOR_BACKGROUND;
         Gdx.gl.glClearColor(bgColor.a, bgColor.b, bgColor.g, bgColor.r);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+		uiStage.draw();
 		batch.begin();
 		
 		// Draw Background Image
-		batch.draw( AssetLoader.bg_grey, 0, 0 );
+//		batch.draw( AssetLoader.bg_grey, 0, 0 );
         
 		if( !gameOver )
 		{
-			debugRenderer.begin(ShapeType.Filled);
-			debugRenderer.setColor(Color.RED);
-			debugRenderer.rect(Gdx.graphics.getWidth() / 2 - 1, 0, 2, Gdx.graphics.getHeight());
 			camera.update();
 			
 			batch.setProjectionMatrix(camera.combined);
 			
 			update( delta );
-	//		batch.draw( wheel.getTexture(), wheel.getX() - wheel.getWidth() / 2, wheel.getY(), wheel.getWidth(), wheel.getHeight() );
 			batch.draw( wheel.getTexture(), wheel.getX() - wheel.getWidth() / 2, wheel.getY() - wheel.getHeight() / 2, wheel.getWidth() / 2, wheel.getHeight() / 2, 
 					wheel.getWidth(), wheel.getHeight(), 1f, 1f, wheel.getRotation());
-			
-			Vector2 middleWheel = new Vector2( wheel.getX() , wheel.getY() + wheel.getHeight() / 2 );
-			debugRenderer.setColor( Color.BLACK );
-			debugRenderer.circle(wheel.getX(), wheel.getY(), 6);
-//			debugRenderer.circle(wheel.getBoundingCircle().x, wheel.getBoundingCircle().y, wheel.getBoundingCircle().radius);
-			
+						
 			for( Ball b : balls )
 			{
-	//			debugRenderer.circle(b.getBoundingCircle().x, b.getBoundingCircle().y, b.getBoundingCircle().radius);
 			    batch.draw( b.getTexture(), b.getX() - b.getWidth() / 2, b.getY() - b.getHeight() / 2, b.getWidth(), b.getHeight() );
-			    
-				Vector2 middleBall = new Vector2( b.getX() , b.getY() );
-				debugRenderer.setColor( Color.BLACK );
-				debugRenderer.circle(middleBall.x, middleBall.y, 2);
 			}
-			debugRenderer.end();
 		}
-		uiStage.draw();
+		else
+		{
+			Gdx.app.log("Lives", ""+uiStage.getActors().size);
+		}
 		
 		batch.end();
+		fpsLabel.setText( "FPS: "+Gdx.graphics.getFramesPerSecond() );
 	}
 	
 	public void update( float delta )
@@ -208,20 +214,17 @@ public class GameScreen implements Screen
 				{
 					// A Ball entered the Wheel
 					// Determine where it hit
-					Utils.calculateAngleFromHit(b, wheel);
+					if( Utils.isBallHitRightWheelSegment( b, wheel ) )
+					{
+						GameData.SCORE++;
+						scoreLabel.setText( "Score: "+GameData.SCORE );
+					}
+					else
+					{
+						GameData.LIVES_CURRENT--;
+						livesChanged = true;
+					}
 					
-//					if( b.getColor() == wheel.getCurrentHitColor( b.getBoundingCircle() ) )
-//					{
-//						// The colors match
-////						score++;
-////						scoreLabel.setText( "Score: "+score );
-//					}
-//					else
-//					{
-//						// The colors don't match
-////						lives--;
-////						livesChanged = true;
-//					}
 					i.remove();
 					ballRemoved = true;
 					break;
@@ -232,16 +235,14 @@ public class GameScreen implements Screen
 			if( livesChanged )
 			{
 	//			Gdx.app.log("Lives", "changed: true");
-				if( lives <= 0 )
+				if( GameData.LIVES_CURRENT <= 0 )
 				{
-					gameOver = true;
-					resetLabel.setText("Your Score was "+score);
-					resetTable.setVisible(true);
+					setGameOver();
 				}
 				else
 				{
-	//				Gdx.app.log("Lives", "j="+(liveImages.length - 1)+";j > "+(liveImages.length - (maxLives - lives))+" ");
-					for( int j = liveImages.length - 1; j > liveImages.length - (maxLives - lives) - 1; j-- )
+//					Gdx.app.log("Lives", "j="+(liveImages.length - 1)+";j > "+(liveImages.length - (GameData.LIVES_MAX - GameData.LIVES_CURRENT))+" ");
+					for( int j = liveImages.length - 1; j > liveImages.length - (GameData.LIVES_MAX - GameData.LIVES_CURRENT) - 1; j-- )
 					{
 						liveImages[j].setDrawable( new SpriteDrawable( new Sprite( AssetLoader.heartEmpty ) ) );
 					}
@@ -250,7 +251,8 @@ public class GameScreen implements Screen
 			
 			if( ballRemoved )
 			{
-				balls.add( new Ball( camera.viewportWidth / 2, balls.get( balls.size() - 1 ).getY() + 100 ) );
+//				balls.add( new Ball( camera.viewportWidth / 2, balls.get( balls.size() - 1 ).getY() + 100 ) );
+//				balls.add( new Ball( camera.viewportWidth / 2 + (Utils.rand(-60, 60)), 200 + ( 100 + Utils.rand(50, 100) ) ) );
 			}
 			
 			for( Actor a : uiStage.getActors() )
@@ -285,7 +287,7 @@ public class GameScreen implements Screen
 	@Override
 	public void dispose() 
 	{
-
+		uiStage.dispose();
 	}
 
 	public Wheel getwheel() 

@@ -59,7 +59,6 @@ public class GameScreenInputHandler implements InputProcessor
 	{
 		if( screenY > Gdx.graphics.getHeight() * 0.2 )
 		{
-			System.out.println( screenY );
 			screen.getwheel().setRotationFromMiddle( screenX, screenY, screen.getViewport().getScreenWidth(), screen.getViewport().getScreenHeight() );
 		}
 		return false;
