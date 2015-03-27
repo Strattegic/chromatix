@@ -50,7 +50,7 @@ public class MainMenuScreen implements Screen
 	        public void changed (ChangeEvent event, Actor actor) 
 	        {
 	        	AssetLoader.SOUND_CLICK.play( GameData.VOLUME_SOUND );
-	        	game.setScreen( new GameScreen( game ) );
+	        	game.setScreen( new GameModeSelectScreen( game ) );
 	        }
 	    });
 		optionsButton = new TextButton( "Options", AssetLoader.textButtonStyle );

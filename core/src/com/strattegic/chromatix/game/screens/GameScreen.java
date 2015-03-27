@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -26,17 +25,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.strattegic.chromatix.game.ChromatixGame;
-import com.strattegic.chromatix.game.GameScreenInputGestureHandler;
-import com.strattegic.chromatix.game.GameScreenInputHandler;
 import com.strattegic.chromatix.game.entities.Ball;
 import com.strattegic.chromatix.game.entities.Wheel;
 import com.strattegic.chromatix.game.helpers.AssetLoader;
 import com.strattegic.chromatix.game.helpers.Constants;
 import com.strattegic.chromatix.game.helpers.GameData;
 import com.strattegic.chromatix.game.helpers.Utils;
+import com.strattegic.chromatix.game.input.GameScreenInputGestureHandler;
+import com.strattegic.chromatix.game.input.GameScreenInputHandler;
 
 public class GameScreen implements Screen 
 {
@@ -70,7 +69,7 @@ public class GameScreen implements Screen
 		balls = new ArrayList<Ball>();
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
-	    viewport = new ExtendViewport( Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera );
+	    viewport = new FitViewport( Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera );
 	    viewport.apply();
 		initGUI();
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -78,6 +77,8 @@ public class GameScreen implements Screen
 		inputMultiplexer.addProcessor( new GestureDetector( new GameScreenInputGestureHandler( this ) ) );
 		inputMultiplexer.addProcessor( new GameScreenInputHandler( this ) );
 		Gdx.input.setInputProcessor(inputMultiplexer);
+		
+		AssetLoader.MUSIC_SOLEM_VOW.play( GameData.VOLUME_MUSIC );
 	}
 	
 	private void initGUI()
@@ -93,7 +94,8 @@ public class GameScreen implements Screen
 			@Override
 			public void changed(ChangeEvent event, Actor actor) 
 			{
-				game.setScreen( new MainMenuScreen( game ) );
+				game.setScreen( new GameModeSelectScreen( game ) );
+				AssetLoader.MUSIC_SOLEM_VOW.stop();
 			}
 		});
 		uiStage.addActor( menuButton );

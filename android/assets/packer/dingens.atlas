@@ -6,28 +6,28 @@ filter: Linear,Linear
 repeat: none
 ball_blue
   rotate: false
-  xy: 985, 990
+  xy: 940, 855
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ball_green
   rotate: false
-  xy: 577, 385
+  xy: 840, 125
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ball_red
   rotate: false
-  xy: 815, 628
+  xy: 874, 125
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 button
   rotate: false
-  xy: 709, 611
+  xy: 901, 206
   size: 49, 49
   orig: 49, 49
   offset: 0, 0
@@ -48,28 +48,28 @@ chromatix_white
   index: -1
 grey_arrowDownGrey
   rotate: false
-  xy: 985, 978
+  xy: 955, 161
   size: 15, 10
   orig: 15, 10
   offset: 0, 0
   index: -1
 grey_arrowDownWhite
   rotate: false
-  xy: 577, 373
+  xy: 940, 843
   size: 15, 10
   orig: 15, 10
   offset: 0, 0
   index: -1
 grey_arrowUpGrey
   rotate: false
-  xy: 611, 407
+  xy: 908, 147
   size: 15, 10
   orig: 15, 10
   offset: 0, 0
   index: -1
 grey_arrowUpWhite
   rotate: false
-  xy: 815, 616
+  xy: 1003, 225
   size: 15, 10
   orig: 15, 10
   offset: 0, 0
@@ -104,7 +104,7 @@ grey_boxTick
   index: -1
 grey_button00
   rotate: false
-  xy: 516, 513
+  xy: 194, 50
   size: 190, 45
   orig: 190, 45
   offset: 0, 0
@@ -118,7 +118,7 @@ grey_button01
   index: -1
 grey_button02
   rotate: false
-  xy: 516, 466
+  xy: 708, 159
   size: 190, 45
   orig: 190, 45
   offset: 0, 0
@@ -132,7 +132,7 @@ grey_button03
   index: -1
 grey_button04
   rotate: false
-  xy: 516, 419
+  xy: 516, 108
   size: 190, 45
   orig: 190, 45
   offset: 0, 0
@@ -146,70 +146,70 @@ grey_button05
   index: -1
 grey_button06
   rotate: false
-  xy: 516, 611
+  xy: 516, 206
   size: 191, 49
   orig: 191, 49
   offset: 0, 0
   index: -1
 grey_button07
   rotate: false
-  xy: 391, 97
+  xy: 708, 108
   size: 49, 49
   orig: 49, 49
   offset: 0, 0
   index: -1
 grey_button08
   rotate: false
-  xy: 708, 560
+  xy: 391, 97
   size: 49, 49
   orig: 49, 49
   offset: 0, 0
   index: -1
 grey_button09
   rotate: false
-  xy: 442, 101
+  xy: 759, 112
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
   index: -1
 grey_button10
   rotate: false
-  xy: 386, 46
+  xy: 889, 871
   size: 49, 49
   orig: 49, 49
   offset: 0, 0
   index: -1
 grey_button11
   rotate: false
-  xy: 708, 513
+  xy: 442, 101
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
   index: -1
 grey_button12
   rotate: false
-  xy: 883, 871
+  xy: 952, 206
   size: 49, 49
   orig: 49, 49
   offset: 0, 0
   index: -1
 grey_button13
   rotate: false
-  xy: 883, 824
+  xy: 889, 824
   size: 49, 45
   orig: 49, 45
   offset: 0, 0
   index: -1
 grey_button14
   rotate: false
-  xy: 516, 560
+  xy: 516, 155
   size: 190, 49
   orig: 190, 49
   offset: 0, 0
   index: -1
 grey_button15
   rotate: false
-  xy: 194, 46
+  xy: 709, 206
   size: 190, 49
   orig: 190, 49
   offset: 0, 0
@@ -223,7 +223,7 @@ grey_checkmarkGrey
   index: -1
 grey_checkmarkWhite
   rotate: false
-  xy: 708, 491
+  xy: 493, 104
   size: 21, 20
   orig: 21, 20
   offset: 0, 0
@@ -237,14 +237,14 @@ grey_circle
   index: -1
 grey_crossGrey
   rotate: false
-  xy: 883, 804
+  xy: 1003, 237
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 grey_crossWhite
   rotate: false
-  xy: 258, 26
+  xy: 985, 960
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
@@ -258,14 +258,14 @@ grey_panel
   index: -1
 grey_sliderDown
   rotate: false
-  xy: 198, 2
+  xy: 985, 980
   size: 28, 42
   orig: 28, 42
   offset: 0, 0
   index: -1
 grey_sliderEnd
   rotate: false
-  xy: 975, 910
+  xy: 985, 948
   size: 8, 10
   orig: 8, 10
   offset: 0, 0
@@ -279,58 +279,72 @@ grey_sliderHorizontal
   index: -1
 grey_sliderLeft
   rotate: false
-  xy: 934, 889
+  xy: 940, 889
   size: 39, 31
   orig: 39, 31
   offset: 0, 0
   index: -1
 grey_sliderRight
   rotate: false
-  xy: 522, 339
+  xy: 955, 173
   size: 39, 31
   orig: 39, 31
   offset: 0, 0
   index: -1
 grey_sliderUp
   rotate: false
-  xy: 228, 2
+  xy: 810, 115
   size: 28, 42
   orig: 28, 42
   offset: 0, 0
   index: -1
 grey_sliderVertical
   rotate: false
-  xy: 516, 317
+  xy: 883, 820
   size: 4, 100
   orig: 4, 100
   offset: 0, 0
   index: -1
 grey_tickGrey
   rotate: false
-  xy: 934, 870
+  xy: 1005, 961
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 grey_tickWhite
   rotate: false
-  xy: 522, 320
+  xy: 1005, 942
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 hud_heartEmpty
   rotate: false
-  xy: 522, 372
+  xy: 386, 50
   size: 53, 45
   orig: 53, 45
   offset: 0, 0
   index: -1
 hud_heartFull
   rotate: false
-  xy: 760, 615
+  xy: 900, 159
   size: 53, 45
   orig: 53, 45
+  offset: 0, 0
+  index: -1
+mode_arcade
+  rotate: false
+  xy: 516, 257
+  size: 252, 403
+  orig: 252, 403
+  offset: 0, 0
+  index: -1
+mode_secret
+  rotate: false
+  xy: 770, 257
+  size: 252, 403
+  orig: 252, 403
   offset: 0, 0
   index: -1
 wheel
@@ -338,5 +352,18 @@ wheel
   xy: 2, 148
   size: 512, 512
   orig: 512, 512
+  offset: 0, 0
+  index: -1
+
+dingens2.png
+size: 256,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+mode_challenge
+  rotate: false
+  xy: 2, 2
+  size: 250, 400
+  orig: 250, 400
   offset: 0, 0
   index: -1

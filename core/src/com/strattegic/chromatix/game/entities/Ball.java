@@ -16,7 +16,7 @@ public class Ball extends Entity
 		super(x, y);
 		setWidth(20);
 		setHeight(20);
-		setSpeed( 1000 );
+		setSpeed( 100 );
 		setColor( POSSIBLE_COLORS[ Utils.rand(0, POSSIBLE_COLORS.length - 1) ] );
 		boundingCircle = new Circle( x, y, getWidth() / 2 );
 	}

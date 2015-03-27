@@ -16,7 +16,12 @@ import com.strattegic.chromatix.game.helpers.Constants.COLORS;
 public class AssetLoader 
 {
 	public static CheckBoxStyle checkboxStyle;
-
+	public static Color BG_COLOR = Color.valueOf("333333FF");
+	
+	public static TextureRegion GAME_MODE_ARCADE;
+	public static TextureRegion GAME_MODE_CHALLENGE;
+	public static TextureRegion GAME_MODE_SECRET;
+	
 	public static TextureAtlas atlas;
 	
 	public static TextureRegion ballRed;
@@ -34,7 +39,7 @@ public class AssetLoader
 	
 	public static TextureRegion wheel;
 	
-	public static Sound SOUND_CLICK;
+	public static Sound SOUND_CLICK, MUSIC_SOLEM_VOW;
 	
 	public static TextureRegion getBall( int color )
 	{
@@ -78,7 +83,7 @@ public class AssetLoader
 		textButtonStyle.up = new TextureRegionDrawable( atlas.findRegion( "grey_button10" ) );
 		textButtonStyle.down = new TextureRegionDrawable( atlas.findRegion( "grey_button11" ) );
 		textButtonStyle.font = new BitmapFont();
-		textButtonStyle.fontColor = Color.valueOf("333333FF");
+		textButtonStyle.fontColor = BG_COLOR;
 		
 		checkboxStyle = new CheckBoxStyle();
 		checkboxStyle.checkboxOn = new TextureRegionDrawable( atlas.findRegion( "grey_boxCheckmark" ) );
@@ -86,5 +91,11 @@ public class AssetLoader
 		checkboxStyle.font = new BitmapFont();
 				
 		SOUND_CLICK = Gdx.audio.newSound(Gdx.files.internal("sounds/menu/click.wav"));
+		
+		MUSIC_SOLEM_VOW = Gdx.audio.newSound( Gdx.files.internal("sounds/Solemn_Vow_tabletopaudio_sel.wav") );
+		
+		GAME_MODE_ARCADE = atlas.findRegion( "mode_arcade" );
+		GAME_MODE_CHALLENGE = atlas.findRegion( "mode_challenge" );
+		GAME_MODE_SECRET = atlas.findRegion( "mode_secret" );
 	}
 }
