@@ -2,8 +2,6 @@ package com.strattegic.chromatix.game.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.strattegic.chromatix.game.entities.Wheel;
-import com.strattegic.chromatix.game.helpers.Constants;
 import com.strattegic.chromatix.game.screens.GameScreen;
 
 public class GameScreenInputHandler implements InputProcessor 

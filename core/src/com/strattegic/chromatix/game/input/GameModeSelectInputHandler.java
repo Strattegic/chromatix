@@ -1,43 +1,52 @@
 package com.strattegic.chromatix.game.input;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.input.GestureDetector.GestureAdapter;
-import com.strattegic.chromatix.game.screens.GameModeSelectScreen;
-import com.strattegic.chromatix.game.screens.GameScreen;
+import com.strattegic.chromatix.game.screens.MainMenuScreen;
 
-public class GameModeSelectInputHandler extends GestureAdapter 
+public class GameModeSelectInputHandler extends GestureAdapter
 {
-	private GameModeSelectScreen screen;
+  private MainMenuScreen screen;
 
-	public GameModeSelectInputHandler( GameModeSelectScreen screen ) 
-	{
-		this.screen = screen;
-	}
-	@Override
-	public boolean fling(float velocityX, float velocityY, int button) {
-		if (Math.abs(velocityX) > Math.abs(velocityY)) {
-			if (velocityX > 0) {
-				swipeRight();
-			} else {
-				swipeLeft();
-			}
-		} else {
-			if (velocityY > 0) {
-//				onDown();
-			} else {
-//				onUp();
-			}
-		}
-		return super.fling(velocityX, velocityY, button);
-	}
+  public GameModeSelectInputHandler( MainMenuScreen mainMenuScreen )
+  {
+    this.screen = mainMenuScreen;
+  }
 
-	private void swipeLeft() 
-	{
-		screen.swipeLeft();
-	}
+  @Override
+  public boolean fling( float velocityX, float velocityY, int button )
+  {
+    if ( Math.abs( velocityX ) > Math.abs( velocityY ) )
+    {
+      if ( velocityX > 0 )
+      {
+        swipeRight();
+      }
+      else
+      {
+        swipeLeft();
+      }
+    }
+    else
+    {
+      if ( velocityY > 0 )
+      {
+        // onDown();
+      }
+      else
+      {
+        // onUp();
+      }
+    }
+    return super.fling( velocityX, velocityY, button );
+  }
 
-	private void swipeRight() 
-	{
-		screen.swipeRight();
-	}
+  private void swipeLeft()
+  {
+    screen.swipeLeft();
+  }
+
+  private void swipeRight()
+  {
+    screen.swipeRight();
+  }
 }

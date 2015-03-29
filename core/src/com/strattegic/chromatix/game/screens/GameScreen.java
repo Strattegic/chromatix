@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -34,7 +33,6 @@ import com.strattegic.chromatix.game.helpers.AssetLoader;
 import com.strattegic.chromatix.game.helpers.Constants;
 import com.strattegic.chromatix.game.helpers.GameData;
 import com.strattegic.chromatix.game.helpers.Utils;
-import com.strattegic.chromatix.game.input.GameScreenInputGestureHandler;
 import com.strattegic.chromatix.game.input.GameScreenInputHandler;
 
 public class GameScreen implements Screen 
@@ -74,7 +72,6 @@ public class GameScreen implements Screen
 		initGUI();
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(uiStage);
-		inputMultiplexer.addProcessor( new GestureDetector( new GameScreenInputGestureHandler( this ) ) );
 		inputMultiplexer.addProcessor( new GameScreenInputHandler( this ) );
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		
@@ -94,7 +91,7 @@ public class GameScreen implements Screen
 			@Override
 			public void changed(ChangeEvent event, Actor actor) 
 			{
-				game.setScreen( new GameModeSelectScreen( game ) );
+				game.setScreen( new MainMenuScreen( game ) );
 				AssetLoader.MUSIC_SOLEM_VOW.stop();
 			}
 		});
@@ -151,6 +148,7 @@ public class GameScreen implements Screen
 //		resetTable.debug();
 		
 		uiStage.addActor(resetTable);
+		GameData.getInstance().setHighscoreArcade( GameData.SCORE );
 	}
 		
 	@Override
