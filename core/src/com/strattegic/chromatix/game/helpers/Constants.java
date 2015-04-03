@@ -9,6 +9,8 @@ public class Constants
 	
 	public static final int WIDTH = 480;
 	public static final int HEIGHT = 848;
+//  public static final int WIDTH = 720;
+//  public static final int HEIGHT = 1280;
 	
 	public static class COLORS
 	{

@@ -2,6 +2,7 @@ package com.strattegic.chromatix.game.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.strattegic.chromatix.game.helpers.Constants;
 import com.strattegic.chromatix.game.screens.GameScreen;
 
 public class GameScreenInputHandler implements InputProcessor 
@@ -34,7 +35,7 @@ public class GameScreenInputHandler implements InputProcessor
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) 
 	{
-		if( screenY > Gdx.graphics.getHeight() * 0.2 )
+		if( screenY > Constants.HEIGHT * 0.2 )
 		{
 			screen.getwheel().setRotationFromMiddle( screenX, screenY, screen.getViewport().getScreenWidth(), screen.getViewport().getScreenHeight() );
 		}
@@ -55,7 +56,7 @@ public class GameScreenInputHandler implements InputProcessor
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) 
 	{
-		if( screenY > Gdx.graphics.getHeight() * 0.2 )
+		if( screenY > Constants.HEIGHT * 0.2 )
 		{
 			screen.getwheel().setRotationFromMiddle( screenX, screenY, screen.getViewport().getScreenWidth(), screen.getViewport().getScreenHeight() );
 		}

@@ -67,7 +67,7 @@ public class GameScreen implements Screen
 		balls = new ArrayList<Ball>();
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
-	    viewport = new FitViewport( Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera );
+	    viewport = new FitViewport( Constants.WIDTH, Constants.HEIGHT, camera );
 	    viewport.apply();
 		initGUI();
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -75,17 +75,19 @@ public class GameScreen implements Screen
 		inputMultiplexer.addProcessor( new GameScreenInputHandler( this ) );
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		
-		AssetLoader.MUSIC_SOLEM_VOW.play( GameData.VOLUME_MUSIC );
+		AssetLoader.MUSIC_SOLEM_VOW.play();
+		AssetLoader.MUSIC_SOLEM_VOW.setVolume( GameData.VOLUME_MUSIC );
+		AssetLoader.MUSIC_SOLEM_VOW.setLooping( true );
 	}
 	
 	private void initGUI()
 	{
 		uiStage = new Stage( viewport );
 		scoreLabel = new Label("Score: 0", new LabelStyle( new BitmapFont(), new Color(255, 255, 255, 1)) );
-		scoreLabel.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 70);
+		scoreLabel.setPosition(Constants.WIDTH - 100, Constants.HEIGHT - 70);
 		uiStage.addActor( scoreLabel );
 		menuButton = new TextButton("Menu", AssetLoader.uiSkin);
-		menuButton.setPosition(Gdx.graphics.getWidth()*0.02f, Gdx.graphics.getHeight()*0.96f);
+		menuButton.setPosition(Constants.WIDTH*0.02f, Constants.HEIGHT*0.96f);
 		menuButton.addListener( new ChangeListener()
 		{
 			@Override
@@ -102,7 +104,7 @@ public class GameScreen implements Screen
 		{
 			liveImages[i] = new Image( AssetLoader.heartFull );
 			liveImages[i].setSize(29, 25);
-			liveImages[i].setPosition( Gdx.graphics.getWidth() - 30 - (i*29) - 5, Gdx.graphics.getHeight() - 35 );
+			liveImages[i].setPosition( Constants.WIDTH - 30 - (i*29) - 5, Constants.HEIGHT - 35 );
 			uiStage.addActor( liveImages[i] );
 		}
 		
@@ -139,12 +141,12 @@ public class GameScreen implements Screen
 		
 		resetTable = new Table();
 		resetTable.setColor(1, 1, 0, 1);
-		resetTable.add( resetScoreLabel ).size( Gdx.graphics.getWidth() * 0.9f, 200 );
+		resetTable.add( resetScoreLabel ).size( Constants.WIDTH * 0.9f, 200 );
 		resetTable.row();
 		resetTable.add( resetLabel ).padBottom(20);
 		resetTable.row();
 		resetTable.add( resetButton );
-		resetTable.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		resetTable.setPosition(Constants.WIDTH / 2, Constants.HEIGHT / 2);
 //		resetTable.debug();
 		
 		uiStage.addActor(resetTable);

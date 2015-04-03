@@ -50,23 +50,23 @@ public class MainMenuScreen implements Screen
   public MainMenuScreen( ChromatixGame game )
   {
     this.game = game;
-    viewport = new FitViewport( Gdx.graphics.getWidth(),
-        Gdx.graphics.getHeight() );
+    viewport = new FitViewport( Constants.WIDTH, Constants.HEIGHT );
     uiStage = new Stage( viewport );
 
     modeSelectTable = new Table();
-    modeSelectTable.setDebug( true );
-    modeSelectTable.setY( Gdx.graphics.getHeight() / 2 );
+    modeSelectTable.setDebug( false );
+    modeSelectTable.setY( Constants.HEIGHT / 2 );
     modeSelectTable.left();
 
     modes = new ArrayList<Table>();
     Table modeTableArcade = new Table();
+    modeTableArcade.setDebug( true );
     modeImgArcade = new Image( AssetLoader.GAME_MODE_ARCADE );
     modeImgArcade.setName( "arcade" );
     Label arcadeLabel = new Label( "Highscore: "+GameData.getInstance().getHighscoreArcade(), AssetLoader.uiSkin );
-    modeTableArcade.add( arcadeLabel ).left();
-    modeTableArcade.row();
     modeTableArcade.add( modeImgArcade );
+    modeTableArcade.row();
+    modeTableArcade.add( arcadeLabel ).left();
     modeTableArcade.addListener( new GameModeSelectListener() );
     modeTableArcade.setName( "arcade" );
     modes.add( modeTableArcade );
@@ -102,7 +102,7 @@ public class MainMenuScreen implements Screen
     }
 
     // mainTable.setX( 680 / 3 );
-    modeSelectTable.setX( Gdx.graphics.getWidth() / 2 - 300 / 2 );
+    modeSelectTable.setX( Constants.WIDTH / 2 - 300 / 2 );
     // System.out.println( Gdx.graphics.getWidth() / 2 + 300 / 2 );
     uiStage.addActor( modeSelectTable );
 
@@ -117,9 +117,9 @@ public class MainMenuScreen implements Screen
   {
 
     logo = new Image( AssetLoader.logo );
-    logo.setPosition( 0, uiStage.getHeight() - 120 );
-    logo.setWidth( 480 );
-    logo.setHeight( 100 );
+    logo.setPosition( 0, uiStage.getHeight() - 150 );
+    logo.setWidth( Constants.WIDTH );
+    logo.setHeight( 98 );
     uiStage.addActor( logo );
 
     optionsButton = new TextButton( "Options", AssetLoader.textButtonStyle );
@@ -132,7 +132,7 @@ public class MainMenuScreen implements Screen
     soundCheck.addListener( new VolumeCheckboxChangeListener() );
 
     Table shortSettingsTable = new Table();
-    shortSettingsTable.setWidth( Gdx.graphics.getWidth() );
+    shortSettingsTable.setWidth( Constants.WIDTH );
     shortSettingsTable.add( optionsButton ).expandX().width( 100 ).left();
     Table soundButtonsTable = new Table();
     soundButtonsTable.add( musicCheck ).left();

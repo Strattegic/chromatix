@@ -1,6 +1,7 @@
 package com.strattegic.chromatix.game.helpers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -38,7 +39,8 @@ public class AssetLoader
 	
 	public static TextureRegion wheel;
 	
-	public static Sound SOUND_CLICK, MUSIC_SOLEM_VOW;
+	public static Sound SOUND_CLICK;
+	public static Music MUSIC_SOLEM_VOW;
 	
 	public static TextureRegion getBall( int color )
 	{
@@ -91,7 +93,7 @@ public class AssetLoader
 				
 		SOUND_CLICK = Gdx.audio.newSound(Gdx.files.internal("sounds/menu/click.wav"));
 		
-		MUSIC_SOLEM_VOW = Gdx.audio.newSound( Gdx.files.internal("sounds/Solemn_Vow_tabletopaudio_sel.wav") );
+		MUSIC_SOLEM_VOW = Gdx.audio.newMusic( Gdx.files.internal("sounds/Solemn_Vow_tabletopaudio_intro.mp3") );
 		
 		GAME_MODE_ARCADE = atlas.findRegion( "mode_arcade" );
 		GAME_MODE_CHALLENGE = atlas.findRegion( "mode_challenge" );

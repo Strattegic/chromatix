@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.strattegic.chromatix.game.helpers.AssetLoader;
+import com.strattegic.chromatix.game.helpers.Constants;
 import com.strattegic.chromatix.game.helpers.Constants.COLORS;
 
 
@@ -61,7 +62,7 @@ public class Wheel extends Entity
 //		Gdx.app.log( "Wheel", "RotationSpeed => "+(Gdx.graphics.getWidth() / 2 - touchX) );
 //		Gdx.app.log( "Wheel", "T: ("+touchX+":"+touchY+") "+rotationSpeed);
 
-		rotationAmount = (Gdx.graphics.getWidth() / 2 - touchX) * rotationSpeed;
+		rotationAmount = (Constants.WIDTH / 2 - touchX) * rotationSpeed;
 	}
 
 	public void setRotationAmount( int i ) 
