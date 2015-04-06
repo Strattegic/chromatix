@@ -1,6 +1,5 @@
 package com.strattegic.chromatix.game.input;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.strattegic.chromatix.game.helpers.Constants;
 import com.strattegic.chromatix.game.screens.GameScreen;

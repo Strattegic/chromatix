@@ -1,7 +1,5 @@
 package com.strattegic.chromatix.game.screens;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -15,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -44,7 +41,6 @@ public class MainMenuScreen implements Screen
   private TextButton optionsButton;
   private int currentMode = 0;
 
-  private ArrayList<Table> modes;
   private int modeWidth = 350;
 
   public MainMenuScreen( ChromatixGame game )
@@ -54,13 +50,11 @@ public class MainMenuScreen implements Screen
     uiStage = new Stage( viewport );
 
     modeSelectTable = new Table();
-    modeSelectTable.setDebug( false );
+//    modeSelectTable.setDebug( true );
     modeSelectTable.setY( Constants.HEIGHT / 2 );
     modeSelectTable.left();
 
-    modes = new ArrayList<Table>();
     Table modeTableArcade = new Table();
-    modeTableArcade.setDebug( true );
     modeImgArcade = new Image( AssetLoader.GAME_MODE_ARCADE );
     modeImgArcade.setName( "arcade" );
     Label arcadeLabel = new Label( "Highscore: "+GameData.getInstance().getHighscoreArcade(), AssetLoader.uiSkin );
@@ -69,37 +63,21 @@ public class MainMenuScreen implements Screen
     modeTableArcade.add( arcadeLabel ).left();
     modeTableArcade.addListener( new GameModeSelectListener() );
     modeTableArcade.setName( "arcade" );
-    modes.add( modeTableArcade );
+    modeSelectTable.add( modeTableArcade ).size( 300, 500 ).padRight( 50 );
 
     Table modeTableChallenge = new Table();
     modeImgChallenge = new Image( AssetLoader.GAME_MODE_CHALLENGE );
+    modeImgChallenge.setName( "challenge" );
     modeTableChallenge.addListener( new GameModeSelectListener() );
     modeTableChallenge.add( modeImgChallenge );
-    modes.add( modeTableChallenge );
+    modeSelectTable.add( modeTableChallenge ).size( 300, 500 ).padRight( 50 );
     
     Table modeTableSecret = new Table();
     modeImgSecret = new Image( AssetLoader.GAME_MODE_SECRET );
+    modeImgSecret.setName( "secret" );
     modeTableSecret.addListener( new GameModeSelectListener() );
     modeTableSecret.add( modeImgSecret );
-    modes.add( modeTableSecret );
-
-    for ( int i = 0; i < modes.size(); i++ )
-    {
-      Table table = new Table( AssetLoader.uiSkin );
-      table.add( modes.get( i ) ).size( 300, 500 );
-      if ( i == 0 )
-      {
-        modeSelectTable.add( table ).padRight( 50 );
-      }
-      else if ( i == modes.size() - 1 )
-      {
-        modeSelectTable.add( table );
-      }
-      else
-      {
-        modeSelectTable.add( table ).padRight( 50 );
-      }
-    }
+    modeSelectTable.add( modeTableSecret ).size( 300, 500 );
 
     // mainTable.setX( 680 / 3 );
     modeSelectTable.setX( Constants.WIDTH / 2 - 300 / 2 );
@@ -218,7 +196,7 @@ public class MainMenuScreen implements Screen
 
   public void swipeLeft()
   {
-    if ( currentMode < modes.size() - 1 )
+    if ( currentMode < 2 )
     {
       currentMode++;
       modeSelectTable.setPosition( modeSelectTable.getX() - modeWidth,
@@ -258,12 +236,11 @@ public class MainMenuScreen implements Screen
     public void touchUp( InputEvent event, float x, float y, int pointer,
         int button )
     {
-//      Gdx.app.log( "Mode", "touchUp "+event.getTarget().getParent()+ " " + modes.get( currentMode ) );
-      if ( lastDownPos.x == x && lastDownPos.y == y
-          && event.getTarget().getParent() == modes.get( currentMode ) )
+//      Gdx.app.log( "Mode", "touchUp "+event.getTarget() + " " + modeImgArcade );
+      if ( lastDownPos.x == x && lastDownPos.y == y && event.getTarget() == modeImgArcade )
       {
         AssetLoader.SOUND_CLICK.play( GameData.VOLUME_SOUND );
-        game.setScreen( new GameScreen( game ) );
+        game.setScreen( new NewGameScreen( game ) );
       }
       super.touchUp( event, x, y, pointer, button );
     }

@@ -172,7 +172,7 @@ public class GameScreen implements Screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		uiStage.draw();
 		batch.begin();
-		
+		batch.draw( AssetLoader.gameControl, 25, 30, 430, 60 );
 		// Draw Background Image
 //		batch.draw( AssetLoader.bg_grey, 0, 0 );
         
@@ -190,10 +190,6 @@ public class GameScreen implements Screen
 			{
 			    batch.draw( b.getTexture(), b.getX() - b.getWidth() / 2, b.getY() - b.getHeight() / 2, b.getWidth(), b.getHeight() );
 			}
-		}
-		else
-		{
-			Gdx.app.log("Lives", ""+uiStage.getActors().size);
 		}
 		
 		batch.end();

@@ -30,10 +30,15 @@ public class AssetLoader
 	public static TextureRegion ballBlue;
 	public static Skin uiSkin;
 	public static TextureRegion logo;
+	public static TextureRegionDrawable buttonRed;
+  public static TextureRegionDrawable buttonGreen;
+  public static TextureRegionDrawable buttonYellow;
+  public static TextureRegionDrawable buttonBlue;
 	
 	public static TextureRegion heartFull;
 	public static TextureRegion heartEmpty;
 	public static BitmapFont font_quicksand;
+	public static TextureRegion gameControl;
 	
 	public static TextButtonStyle textButtonStyle;
 	
@@ -68,12 +73,18 @@ public class AssetLoader
 				
 		heartFull = atlas.findRegion( "hud_heartFull" );
 		heartEmpty = atlas.findRegion( "hud_heartEmpty" );
+		gameControl = atlas.findRegion( "game_control_amount" );
 		uiSkin = new Skin( Gdx.files.internal("skin/uiskin.json") );
 		
 		ballRed = atlas.findRegion( "ball_red" );
 		ballGreen = atlas.findRegion( "ball_green" );
 		ballYellow = atlas.findRegion( "ball_yellow" );
 		ballBlue = atlas.findRegion( "ball_blue" );
+		
+//		buttonRed = new TextureRegionDrawable( atlas.findRegion( "button_red" ) );
+//		buttonBlue = new TextureRegionDrawable( atlas.findRegion( "button_blue" ) );
+//		buttonGreen = new TextureRegionDrawable( atlas.findRegion( "button_green" ) );
+//		buttonYellow = new TextureRegionDrawable( atlas.findRegion( "button_yellow" ) );
 		
 		wheel = atlas.findRegion( "wheel" );
 		

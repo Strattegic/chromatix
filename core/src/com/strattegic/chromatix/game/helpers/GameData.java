@@ -15,6 +15,8 @@ public class GameData
 	public static int LIVES_CURRENT = 5;
 	public static int LIVES_MAX = 5;
 	
+	public static int CURRENT_COLOR_AMOUNT = 3;
+	
 	private GameData()
 	{
 	  prefs = Gdx.app.getPreferences("ChromatixPreferences");
