@@ -12,10 +12,6 @@ public class GameData
 	public static float VOLUME_SOUND = 0.8f;
 	
 	public static long SCORE = 0;
-	public static int LIVES_CURRENT = 5;
-	public static int LIVES_MAX = 5;
-	
-	public static int CURRENT_COLOR_AMOUNT = 3;
 	
 	private GameData()
 	{

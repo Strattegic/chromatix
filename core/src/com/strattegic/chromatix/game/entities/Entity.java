@@ -1,16 +1,17 @@
 package com.strattegic.chromatix.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Shape2D;
 
 
 public abstract class Entity
 {
 	private float x, y;
 	private float width, height;
-	private float rotation;
+	private float radius;
 	private float speed;
 	private int color;
+	private Shape2D boundingForm;
 		
 	public Entity(float x, float y) 
 	{
@@ -23,7 +24,17 @@ public abstract class Entity
 		this.y = y;
 	}
 	
-	public abstract Circle getBoundingCircle();
+	public float getRadius()
+  {
+    return radius;
+  }
+
+  public void setRadius( float radius )
+  {
+    this.radius = radius;
+  }
+
+  public abstract Shape2D getBoundingShape();
 	public abstract void update( float delta );
 
 	/**
@@ -33,7 +44,17 @@ public abstract class Entity
 		return color;
 	}
 
-	/**
+	public Shape2D getBoundingForm()
+  {
+    return boundingForm;
+  }
+
+  public void setBoundingForm( Shape2D boundingForm )
+  {
+    this.boundingForm = boundingForm;
+  }
+
+  /**
 	 * @param color the color to set
 	 */
 	public void setColor(int color) {
@@ -99,20 +120,6 @@ public abstract class Entity
 	 */
 	public void setHeight(float height) {
 		this.height = height;
-	}
-
-	/**
-	 * @return the rotation
-	 */
-	public float getRotation() {
-		return rotation;
-	}
-
-	/**
-	 * @param rotation the rotation to set
-	 */
-	public void setRotation(float rotation) {
-		this.rotation = rotation;
 	}
 
 	/**
