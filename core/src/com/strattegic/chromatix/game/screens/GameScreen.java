@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -32,8 +33,9 @@ import com.strattegic.chromatix.game.helpers.AssetLoader;
 import com.strattegic.chromatix.game.helpers.Constants;
 import com.strattegic.chromatix.game.helpers.GameData;
 import com.strattegic.chromatix.game.helpers.Utils;
+import com.strattegic.chromatix.game.input.GameScreenInputHandler;
 
-public class NewGameScreen extends GeneralGameScreen
+public class GameScreen extends GeneralGameScreen
 {
   private Shield shield;
   private Earth earth;
@@ -46,7 +48,7 @@ public class NewGameScreen extends GeneralGameScreen
   private ShapeRenderer debugRenderer;
   private Label scoreLabel;
 
-  public NewGameScreen( ChromatixGame game )
+  public GameScreen( ChromatixGame game )
   {
     super( game );
     debugRenderer = new ShapeRenderer();
@@ -59,7 +61,10 @@ public class NewGameScreen extends GeneralGameScreen
     currentColors.add( new ColorButton( CColor.GREEN ) );
     
     uiStage = new Stage( getViewport() );
-    Gdx.input.setInputProcessor( uiStage );
+    InputMultiplexer multi = new InputMultiplexer();
+    multi.addProcessor( uiStage );
+    multi.addProcessor( new GameScreenInputHandler( this ) );
+    Gdx.input.setInputProcessor( multi );
     initGUI();
     
     balls = new ArrayList<Ball>();
@@ -110,9 +115,11 @@ public class NewGameScreen extends GeneralGameScreen
     if( !earth.isDestroyed() )
     {
       getBatch().begin();
-      
+
+//    debugRenderer.begin(ShapeType.Line);
 //      Circle earthCircle = (Circle) earth.getBoundingShape();
 //      debugRenderer.circle( shield.getBoundingShapeInner().x, shield.getBoundingShapeInner().y, shield.getBoundingShapeInner().radius );
+//    debugRenderer.end();
       
       getBatch().draw( earth.getTexture(), earth.getX() - earth.getRadius(), earth.getY(), earth.getRadius() * 2, earth.getRadius() * 2 );
       getBatch().draw( shield.getTexture(), shield.getX() - shield.getRadius(), shield.getY(), shield.getRadius()*2, shield.getRadius()*2 );
@@ -123,7 +130,11 @@ public class NewGameScreen extends GeneralGameScreen
 
       getBatch().draw( AssetLoader.buttonBg, 0, 0, Constants.WIDTH, 212 );
       getBatch().end();
-      
+
+//    debugRenderer.begin(ShapeType.Line);
+//      Circle earthCircle = (Circle) earth.getBoundingShape();
+//      debugRenderer.circle( shield.getBoundingShapeInner().x, shield.getBoundingShapeInner().y, shield.getBoundingShapeInner().radius );
+//    debugRenderer.end();
 
 //      debugRenderer.setColor( Color.RED );
 //      debugRenderer.begin(ShapeType.Line);
@@ -156,7 +167,7 @@ public class NewGameScreen extends GeneralGameScreen
         }
         // When the colors didn't match, the object is falling through
       }
-      if( Intersector.overlaps( (Circle) b.getBoundingShape(), (Circle) earth.getBoundingShape() ) )
+      else if( Intersector.overlaps( (Circle) b.getBoundingShape(), (Circle) earth.getBoundingShape() ) )
       {
         // the current object hit the earth
 //        earth.doDamage();
@@ -204,7 +215,7 @@ public class NewGameScreen extends GeneralGameScreen
     @Override
     public void clicked( InputEvent event, float x, float y )
     {
-      getGame().setScreen( new NewGameScreen( getGame() ) );
+      getGame().setScreen( new GameScreen( getGame() ) );
     }
     
   }
@@ -225,5 +236,15 @@ public class NewGameScreen extends GeneralGameScreen
     }
 
   }
-
+  
+  public ArrayList<ColorButton> getButtons()
+  {
+    return currentColors;
+  }
+  
+  public Shield getShield()
+  {
+    return shield;
+  }
+  
 }

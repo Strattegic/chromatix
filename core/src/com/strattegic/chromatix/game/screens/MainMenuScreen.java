@@ -240,7 +240,7 @@ public class MainMenuScreen implements Screen
       if ( lastDownPos.x == x && lastDownPos.y == y && event.getTarget() == modeImgArcade )
       {
         AssetLoader.SOUND_CLICK.play( GameData.VOLUME_SOUND );
-        game.setScreen( new NewGameScreen( game ) );
+        game.setScreen( new GameScreen( game ) );
       }
       super.touchUp( event, x, y, pointer, button );
     }
