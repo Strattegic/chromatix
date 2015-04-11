@@ -152,26 +152,34 @@ public class GameScreen extends GeneralGameScreen
   public void update( float delta )
   {  
     Iterator<Ball> i = balls.iterator();
+    boolean removeBall = false;
     while ( i.hasNext() ) 
     {
       Ball b = i.next(); // must be called before you can call i.remove()
       b.update( delta );
-      if( Intersector.overlaps( (Circle) b.getBoundingShape(), (Circle) shield.getBoundingShape() ) )
+      if( Intersector.overlaps( (Circle) b.getBoundingShape(), (Circle) shield.getBoundingShape() )
+          && !Intersector.overlaps( (Circle) b.getBoundingShape(), shield.getBoundingShapeInner() ) )
       {
         // Colors matched
         if( b.getColor() == shield.getColor() )
         {
           GameData.SCORE++;
           scoreLabel.setText( "Score: "+GameData.SCORE );
-          i.remove();
+          removeBall = true;
         }
         // When the colors didn't match, the object is falling through
       }
-      else if( Intersector.overlaps( (Circle) b.getBoundingShape(), (Circle) earth.getBoundingShape() ) )
+      if( Intersector.overlaps( (Circle) b.getBoundingShape(), (Circle) earth.getBoundingShape() ) )
       {
         // the current object hit the earth
 //        earth.doDamage();
+        removeBall = true;
+      }
+      
+      if( removeBall )
+      {
         i.remove();
+        removeBall = false;
       }
     }
     
