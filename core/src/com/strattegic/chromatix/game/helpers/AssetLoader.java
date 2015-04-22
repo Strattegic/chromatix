@@ -3,7 +3,6 @@ package com.strattegic.chromatix.game.helpers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.strattegic.chromatix.game.entities.Ball;
 import com.strattegic.chromatix.game.entities.CColor;
 
 public class AssetLoader 
@@ -55,30 +55,22 @@ public class AssetLoader
 	public static Music MUSIC_SOLEM_VOW;
 
   public static TextureRegion earth;
+		
+  public static TextureRegion getBall( Ball ball )
+  {
+    if( ball.getType() == Ball.BALL_TYPE__NORMAL && ball.getColor().getId() == CColor.RED )
+      return ballRed;
+    else if( ball.getType() == Ball.BALL_TYPE__NORMAL && ball.getColor().getId() == CColor.GREEN )
+      return ballGreen;
+    else if( ball.getType() == Ball.BALL_TYPE__NORMAL && ball.getColor().getId() == CColor.BLUE )
+      return ballBlue;
+    else
+      return ballRed;
+  }
 	
-	public static TextureRegion getBall( int color )
+	public static TextureRegionDrawable getColorButton( CColor color )
 	{
-		if( color == CColor.RED )
-		{
-			return ballRed;
-		}
-		else if( color == CColor.GREEN )
-		{
-			return ballGreen;
-		}
-		else if( color == CColor.YELLOW )
-		{
-			return ballYellow;
-		}
-		else
-		{
-			return ballBlue;
-		}
-	}
-	
-	public static TextureRegionDrawable getColorButton( int color )
-	{
-    switch( color )
+    switch( color.getId() )
     {
       case CColor.BLUE: return AssetLoader.buttonBlue;
       case CColor.RED: return AssetLoader.buttonRed;
@@ -87,9 +79,9 @@ public class AssetLoader
     }
 	}
 	
-	public static TextureRegion getShieldTexture( int color )
+	public static TextureRegion getShieldTexture( CColor color )
   {
-    switch( color )
+    switch( color.getId() )
     {
       case CColor.BLUE: return AssetLoader.shieldBlue;
       case CColor.RED: return AssetLoader.shieldRed;
@@ -150,4 +142,5 @@ public class AssetLoader
 		kenney_ui_home = new TextureRegionDrawable( atlas.findRegion( "kenney_ui_home" ) );
 		kenney_ui_home_half_transparent = new TextureRegionDrawable( atlas.findRegion( "kenney_ui_home_half_transparent" ) );
 	}
+
 }

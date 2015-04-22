@@ -10,7 +10,7 @@ public abstract class Entity
 	private float width, height;
 	private float radius;
 	private float speed;
-	private int color;
+	private CColor color;
 	private Shape2D boundingForm;
 		
 	public Entity(float x, float y) 
@@ -40,7 +40,7 @@ public abstract class Entity
 	/**
 	 * @return the color
 	 */
-	public int getColor() {
+	public CColor getColor() {
 		return color;
 	}
 
@@ -57,7 +57,7 @@ public abstract class Entity
   /**
 	 * @param color the color to set
 	 */
-	public void setColor(int color) {
+	public void setColor(CColor color) {
 		this.color = color;
 	}
 

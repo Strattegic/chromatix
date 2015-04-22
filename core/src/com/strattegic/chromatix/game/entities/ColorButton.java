@@ -10,14 +10,14 @@ public class ColorButton extends ImageButton
     
   private TextureRegionDrawable texture;
   
-  int buttonColor;
+  CColor buttonColor;
   
-  public ColorButton( int color )
+  public ColorButton( CColor color )
   {
     this( 0, 0, color );
   }
   
-  public ColorButton( float x, float y, int color )
+  public ColorButton( float x, float y, CColor color )
   {
     super( AssetLoader.getColorButton( color ) );
     this.x = x;
@@ -78,7 +78,7 @@ public class ColorButton extends ImageButton
     this.y = y;
   }
 
-  public int getButtonColor()
+  public CColor getButtonColor()
   {
     return buttonColor;
   }  

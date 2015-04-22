@@ -1,0 +1,7 @@
+Unmögliche Kombi! Bälle bisher: 1 highestTry: 1
+Unmögliche Kombi! Bälle bisher: 7 highestTry: 3
+Unmögliche Kombi! Bälle bisher: 27 highestTry: 4
+Unmögliche Kombi! Bälle bisher: 224 highestTry: 8
+Unmögliche Kombi! Bälle bisher: 821 highestTry: 9
+Unmögliche Kombi! Bälle bisher: 7967 highestTry: 11
+Unmögliche Kombi! Bälle bisher: 21318 highestTry: 13

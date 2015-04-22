@@ -8,26 +8,15 @@ import com.strattegic.chromatix.game.helpers.Constants;
 
 public class Shield extends Entity
 {
-  private int color;
   private Circle boundingShape, boundingFormInner;
     
-  public Shield( int color )
+  public Shield( CColor color )
   {
     super( Constants.WIDTH / 2, 420 );
     setRadius( 100 );
-    this.color = color;
+    setColor( color );
     boundingShape = new Circle( getX(), getY()+getRadius(), getRadius()-2 );
-    boundingFormInner = new Circle( getX(), getY()+getRadius(), getRadius() - 25 );
-  }
-
-  public void setColor( int buttonColor )
-  {
-    color = buttonColor;
-  }
-
-  public int getColor()
-  {
-    return color;
+    boundingFormInner = new Circle( getX(), getY()+getRadius(), getRadius() - 55 );
   }
 
   public Circle getBoundingShapeInner()
@@ -38,7 +27,7 @@ public class Shield extends Entity
   @Override
   public TextureRegion getTexture()
   {
-    return AssetLoader.getShieldTexture( color );
+    return AssetLoader.getShieldTexture( getColor() );
   }
 
   @Override

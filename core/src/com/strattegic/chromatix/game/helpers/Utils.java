@@ -1,16 +1,27 @@
 package com.strattegic.chromatix.game.helpers;
 
+import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Utils 
 {
+  static FileHandle logFile = Gdx.files.local("log.txt");
+  
 	public static int rand( int min, int max )
 	{
 		Random rand = new Random();
 	    int randomNum = rand.nextInt((max - min) + 1) + min;
 	    return randomNum;
+	}
+	
+	public static Vector2 rand( ArrayList<Vector2> pools )
+	{
+	  Vector2 pool = pools.get( Utils.rand( 0, pools.size() - 1 ) );
+    return null;
 	}
 	
 	public static Vector2 getRandomBallPosition()
@@ -29,4 +40,10 @@ public class Utils
 	    return new Vector2( rand(-abst, abst+Constants.WIDTH), rand(-1000, 0));
 	    
 	}  
+	
+	public static void logToFile( String text )
+	{
+	  logFile.writeString( text, true );
+	  logFile.writeString( "\n", true );
+	}
 }
