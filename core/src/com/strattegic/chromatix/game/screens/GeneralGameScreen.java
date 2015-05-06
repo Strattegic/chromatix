@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.strattegic.chromatix.game.ChromatixGame;
 import com.strattegic.chromatix.game.helpers.Constants;
+import com.strattegic.chromatix.game.helpers.GameState;
 
 public class GeneralGameScreen implements Screen
 {
@@ -23,6 +24,7 @@ public class GeneralGameScreen implements Screen
     camera = new OrthographicCamera();
       viewport = new FitViewport( Constants.WIDTH, Constants.HEIGHT, camera );
       viewport.apply();
+    GameState.setState( GameState.RUNNING );
   }
   
   public ChromatixGame getGame()

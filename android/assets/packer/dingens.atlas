@@ -6,23 +6,44 @@ filter: Linear,Linear
 repeat: none
 ball_blue
   rotate: false
-  xy: 624, 9
+  xy: 726, 9
   size: 32, 32
   orig: 32, 32
+  offset: 0, 0
+  index: -1
+ball_blue_reverse
+  rotate: false
+  xy: 624, 7
+  size: 32, 34
+  orig: 32, 34
   offset: 0, 0
   index: -1
 ball_green
   rotate: false
-  xy: 658, 9
+  xy: 760, 9
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+ball_green_reverse
+  rotate: false
+  xy: 658, 7
+  size: 32, 34
+  orig: 32, 34
+  offset: 0, 0
+  index: -1
 ball_red
   rotate: false
-  xy: 692, 9
+  xy: 794, 9
   size: 32, 32
   orig: 32, 32
+  offset: 0, 0
+  index: -1
+ball_red_reverse
+  rotate: false
+  xy: 692, 7
+  size: 32, 34
+  orig: 32, 34
   offset: 0, 0
   index: -1
 button

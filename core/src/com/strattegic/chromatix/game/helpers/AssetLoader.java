@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -25,8 +26,10 @@ public class AssetLoader
 	
 	public static TextureRegion ballRed;
 	public static TextureRegion ballGreen;
-	public static TextureRegion ballYellow;
 	public static TextureRegion ballBlue;
+	public static TextureRegion ballRedReverse;
+	public static TextureRegion ballGreenReverse;
+	public static TextureRegion ballBlueReverse;
 	public static Skin uiSkin;
 	public static TextureRegion logo;
 	
@@ -64,6 +67,12 @@ public class AssetLoader
       return ballGreen;
     else if( ball.getType() == Ball.BALL_TYPE__NORMAL && ball.getColor().getId() == CColor.BLUE )
       return ballBlue;
+    else if( ball.getType() == Ball.BALL_TYPE__REVERSE && ball.getColor().getId() == CColor.RED )
+      return ballRedReverse;
+    else if( ball.getType() == Ball.BALL_TYPE__REVERSE && ball.getColor().getId() == CColor.GREEN )
+      return ballGreenReverse;
+    else if( ball.getType() == Ball.BALL_TYPE__REVERSE && ball.getColor().getId() == CColor.BLUE )
+      return ballBlueReverse;
     else
       return ballRed;
   }
@@ -102,8 +111,11 @@ public class AssetLoader
 		
 		ballRed = atlas.findRegion( "ball_red" );
 		ballGreen = atlas.findRegion( "ball_green" );
-		ballYellow = atlas.findRegion( "ball_yellow" );
 		ballBlue = atlas.findRegion( "ball_blue" );
+		
+		ballRedReverse = atlas.findRegion( "ball_red_reverse" );
+    ballGreenReverse = atlas.findRegion( "ball_green_reverse" );
+    ballBlueReverse = atlas.findRegion( "ball_blue_reverse" );
 		
 		buttonRed = new TextureRegionDrawable( atlas.findRegion( "color_button_red" ) );
 		buttonBlue = new TextureRegionDrawable( atlas.findRegion( "color_button_blue" ) );

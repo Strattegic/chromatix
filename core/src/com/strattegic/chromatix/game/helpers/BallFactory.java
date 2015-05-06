@@ -45,7 +45,6 @@ public class BallFactory
           && !Intersector.overlaps( (Circle) b.getBoundingShape(), shield.getBoundingShapeInner() ) )
       {
         // A Ball hit the shield, now let us look up what to do
-        System.out.println( b );
         if( b.isShieldEffective( shield ) )
         {
           GameData.addScore( b.getScorePoints() );
@@ -81,7 +80,8 @@ public class BallFactory
       while( !ballFound )
       {
         Vector2 rndPos = Utils.getRandomBallPosition();
-        b = new Ball( rndPos.x, rndPos.y, earth.getMiddlePos().x, earth.getMiddlePos().y, Constants.BALL_SIZES[ Utils.rand( 0, Constants.BALL_SIZES.length-1 ) ], Ball.BALL_TYPE__NORMAL );
+        int ballType = Utils.rand( 0, 1 );
+        b = new Ball( rndPos.x, rndPos.y, earth.getMiddlePos().x, earth.getMiddlePos().y, Constants.BALL_SIZES[ Utils.rand( 0, Constants.BALL_SIZES.length-1 ) ], ballType );
         // TODO: Color
         b.setColor( new CColor( CColor.RED ) );
 //        b.setColor( currentColors.get( Utils.rand( 0, currentColors.size() - 1 ) ).getButtonColor() );

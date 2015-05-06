@@ -1,0 +1,25 @@
+﻿Chromatix
+
+Spielidee:
+Rettung der Erde (wahlweise auch ein anderer Planet, Gegenstand oder Sache) vor den Farbbällen (Bezeichnung kann sich noch ändern)
+	- Story ist soweit erstmal Nebensache
+
+Um dieses Ziel zu erreichen muss die Farbe des Schutzschildes jedes Mal auf die des Angreifers angepasst werden. 
+Wenn Ball und Schild zum Zeipunkt des Auftreffens die selbe Farbe haben, dann verschwindet der Ball und gilt als zerstört.
+Sollten die Farben nicht identisch sein, so fliegt der Ball weiter Richtung Erde.
+Bei (5) Treffern mit einem Ball wird die Erde zerstört und das Spiel ist vorbei. Der Spieler muss dann wieder von vorne anfangen.
+
+
+Features:
+- Bei jedem Treffer auf die Erde soll diese sich optisch verändern. Das heißt mehr Krater, und generell ein höherer Verwüstungsgrad. 
+- Der Spieler bekommt Punkte für jeden zerstörten Ball. Die Anzahl der Punkte ist umgekehrt proportional zur Größe des Balls. Die kleinen Bälle sind schneller, deswegen bringen diese auch mehr Punkte.
+- Erst 3 dann mehr Farben! Im Laufe des Spiels, oder auch in anderen Spielmodi soll es mehr als 3 Farben zur Auswahl geben, was den Schwierigkeitsgrad erhöht. Geplant ist bis zu 6 Farben anzuzeigen, kann man aber je nach Aussehen variieren.
+	- Zurzeit wird nur Rot, Grün und Blau genutzt
+
+Video:
+- Auf dem Video sieht man einen ersten Test wie das Spiel aussehen könnte. Die Bälle fliegen zur Erde hin und können durch den Schild abgewehrt werden.
+- Die Steuerung der Schildfarben wird über die 3 Buttons geregelt.
+
+
+
+Cyan, Magenta, Gelb?
