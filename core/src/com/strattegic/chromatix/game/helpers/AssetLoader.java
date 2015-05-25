@@ -5,7 +5,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -23,125 +22,94 @@ public class AssetLoader
 	public static TextureRegion GAME_MODE_SECRET;
 	
 	public static TextureAtlas atlas;
+
+  public static TextureRegion logo;
+  public static TextureRegion gameBackground;
 	
-	public static TextureRegion ballRed;
-	public static TextureRegion ballGreen;
-	public static TextureRegion ballBlue;
-	public static TextureRegion ballRedReverse;
-	public static TextureRegion ballGreenReverse;
-	public static TextureRegion ballBlueReverse;
-	public static Skin uiSkin;
-	public static TextureRegion logo;
-	
-	private static TextureRegionDrawable buttonRed;
-	private static TextureRegionDrawable buttonGreen;
-	private static TextureRegionDrawable buttonBlue;
-  public static TextureRegion buttonBg;
+  public static TextureRegion world;
+  public static TextureRegion worldDamage1;
+  public static TextureRegion worldDamage2;
+  public static TextureRegion worldDamage3;
+  public static TextureRegion worldDamage4;
   
-  public static TextureRegion shieldRed;
-  public static TextureRegion shieldGreen;
-  public static TextureRegion shieldBlue;
+  public static TextureRegion shield;
+	public static TextureRegion enemyPurple;
+	public static TextureRegionDrawable colorButtonPurple;
+  public static TextureRegionDrawable colorButtonCyan;
+  public static TextureRegionDrawable colorButtonGreen;
+  public static TextureRegionDrawable colorButtonGrey;
+  public static TextureRegionDrawable colorButtonOrange;
+  public static TextureRegionDrawable colorButtonYellow;
+	public static Skin uiSkin;
 	
-	public static TextureRegion heartFull;
-	public static TextureRegion heartFullHalfTransparent;
-	public static TextureRegion heartEmpty;
 	public static BitmapFont font_quicksand;
-	public static TextureRegion gameControl;
-	public static TextureRegionDrawable kenney_ui_home;
-  public static TextureRegionDrawable kenney_ui_home_half_transparent;
 	
 	public static TextButtonStyle textButtonStyle;
-	
-	public static TextureRegion wheel;
-	
+		
 	public static Sound SOUND_CLICK;
 	public static Music MUSIC_SOLEM_VOW;
 
-  public static TextureRegion earth;
+
 		
   public static TextureRegion getBall( Ball ball )
   {
-    if( ball.getType() == Ball.BALL_TYPE__NORMAL && ball.getColor().getId() == CColor.RED )
-      return ballRed;
-    else if( ball.getType() == Ball.BALL_TYPE__NORMAL && ball.getColor().getId() == CColor.GREEN )
-      return ballGreen;
-    else if( ball.getType() == Ball.BALL_TYPE__NORMAL && ball.getColor().getId() == CColor.BLUE )
-      return ballBlue;
-    else if( ball.getType() == Ball.BALL_TYPE__REVERSE && ball.getColor().getId() == CColor.RED )
-      return ballRedReverse;
-    else if( ball.getType() == Ball.BALL_TYPE__REVERSE && ball.getColor().getId() == CColor.GREEN )
-      return ballGreenReverse;
-    else if( ball.getType() == Ball.BALL_TYPE__REVERSE && ball.getColor().getId() == CColor.BLUE )
-      return ballBlueReverse;
-    else
-      return ballRed;
+    return enemyPurple;
   }
 	
 	public static TextureRegionDrawable getColorButton( CColor color )
 	{
-    switch( color.getId() )
-    {
-      case CColor.BLUE: return AssetLoader.buttonBlue;
-      case CColor.RED: return AssetLoader.buttonRed;
-      case CColor.GREEN: return AssetLoader.buttonGreen;
-      default: return AssetLoader.buttonGreen;
-    }
+	  switch( color.getId() )
+	  {
+	    case CColor.CYAN: return colorButtonCyan;
+	    case CColor.GREEN: return colorButtonGreen;
+	    case CColor.GREY: return colorButtonGrey;
+	    case CColor.ORANGE: return colorButtonOrange;
+	    case CColor.PURPLE: return colorButtonPurple;
+	    case CColor.YELLOW: return colorButtonYellow;
+	  }
+    return colorButtonPurple;
 	}
 	
 	public static TextureRegion getShieldTexture( CColor color )
   {
-    switch( color.getId() )
-    {
-      case CColor.BLUE: return AssetLoader.shieldBlue;
-      case CColor.RED: return AssetLoader.shieldRed;
-      case CColor.GREEN: return AssetLoader.shieldGreen;
-      default: return AssetLoader.shieldGreen;
-    }
+    return shield;
   }
 	
 	public static void load() 
 	{
 		atlas = new TextureAtlas(Gdx.files.internal("packer/dingens.atlas"));
-				
-		heartFull = atlas.findRegion( "hud_heartFull" );
-		heartFullHalfTransparent = atlas.findRegion( "hud_heartFull_half_transparent" );
-		heartEmpty = atlas.findRegion( "hud_heartEmpty" );
-		gameControl = atlas.findRegion( "game_control_amount" );
-		uiSkin = new Skin( Gdx.files.internal("skin/uiskin.json") );
-		
-		ballRed = atlas.findRegion( "ball_red" );
-		ballGreen = atlas.findRegion( "ball_green" );
-		ballBlue = atlas.findRegion( "ball_blue" );
-		
-		ballRedReverse = atlas.findRegion( "ball_red_reverse" );
-    ballGreenReverse = atlas.findRegion( "ball_green_reverse" );
-    ballBlueReverse = atlas.findRegion( "ball_blue_reverse" );
-		
-		buttonRed = new TextureRegionDrawable( atlas.findRegion( "color_button_red" ) );
-		buttonBlue = new TextureRegionDrawable( atlas.findRegion( "color_button_blue" ) );
-		buttonGreen = new TextureRegionDrawable( atlas.findRegion( "color_button_green" ) );
-		buttonBg = new TextureRegion( atlas.findRegion( "color_button_bg" ) );
-		
-		earth = new TextureRegion( atlas.findRegion( "earth" ) );
-		shieldRed = new TextureRegion( atlas.findRegion( "shield_red" ) );
-		shieldGreen = new TextureRegion( atlas.findRegion( "shield_green" ) );
-		shieldBlue = new TextureRegion( atlas.findRegion( "shield_blue" ) );
-		
-		wheel = atlas.findRegion( "wheel" );
-		
+
+    uiSkin = new Skin( Gdx.files.internal("skin/uiskin.json") );
+		enemyPurple = atlas.findRegion( "enemy_purple" );
+		world = atlas.findRegion( "world" );		
 		logo = atlas.findRegion( "chromatix_white" );
+		shield = atlas.findRegion( "shield" );
+		gameBackground = atlas.findRegion( "game_bg" );
+		
+		colorButtonPurple = new TextureRegionDrawable( atlas.findRegion( "button_bottom_purple" ) );
+		colorButtonCyan = new TextureRegionDrawable( atlas.findRegion( "button_bottom_cyan" ) );
+		colorButtonGreen = new TextureRegionDrawable( atlas.findRegion( "button_bottom_green" ) );
+		colorButtonGrey = new TextureRegionDrawable( atlas.findRegion( "button_bottom_grey" ) );
+		colorButtonOrange = new TextureRegionDrawable( atlas.findRegion( "button_bottom_orange" ) );
+		colorButtonYellow = new TextureRegionDrawable( atlas.findRegion( "button_bottom_yellow" ) );
+		
+		worldDamage1 = atlas.findRegion( "world_damage_test", 1 );
+		worldDamage2 = atlas.findRegion( "world_damage_test", 2 );
+		worldDamage3 = atlas.findRegion( "world_damage_test", 3 );
+		worldDamage4 = atlas.findRegion( "world_damage_test", 4 );
+		
 		font_quicksand = new BitmapFont( Gdx.files.internal( "font/generated_quicksand.fnt" ) );
 		
-		textButtonStyle = new TextButtonStyle();
-		textButtonStyle.up = new TextureRegionDrawable( atlas.findRegion( "grey_button10" ) );
-		textButtonStyle.down = new TextureRegionDrawable( atlas.findRegion( "grey_button11" ) );
-		textButtonStyle.font = new BitmapFont();
-		textButtonStyle.fontColor = CColor.COLOR_BG;
+//		textButtonStyle = new TextButtonStyle();
+//		textButtonStyle.up = new TextureRegionDrawable( atlas.findRegion( "grey_button10" ) );
+//		textButtonStyle.down = new TextureRegionDrawable( atlas.findRegion( "grey_button11" ) );
+//		textButtonStyle.font = new BitmapFont();
+//		textButtonStyle.fontColor = CColor.COLOR_BG;
 		
-		checkboxStyle = new CheckBoxStyle();
-		checkboxStyle.checkboxOn = new TextureRegionDrawable( atlas.findRegion( "grey_boxCheckmark" ) );
-		checkboxStyle.checkboxOff = new TextureRegionDrawable( atlas.findRegion( "grey_boxCross" ) );
-		checkboxStyle.font = new BitmapFont();
+//		checkboxStyle = new CheckBoxStyle();
+//		checkboxStyle.checkboxOn = new TextureRegionDrawable( atlas.findRegion( "grey_boxCheckmark" ) );
+//		checkboxStyle.checkboxOff = new TextureRegionDrawable( atlas.findRegion( "grey_boxCross" ) );
+//		checkboxStyle.font = new BitmapFont();
 				
 		SOUND_CLICK = Gdx.audio.newSound(Gdx.files.internal("sounds/menu/click.wav"));
 		
@@ -150,9 +118,6 @@ public class AssetLoader
 		GAME_MODE_ARCADE = atlas.findRegion( "mode_arcade" );
 		GAME_MODE_CHALLENGE = atlas.findRegion( "mode_challenge" );
 		GAME_MODE_SECRET = atlas.findRegion( "mode_secret" );
-		
-		kenney_ui_home = new TextureRegionDrawable( atlas.findRegion( "kenney_ui_home" ) );
-		kenney_ui_home_half_transparent = new TextureRegionDrawable( atlas.findRegion( "kenney_ui_home_half_transparent" ) );
 	}
 
 }

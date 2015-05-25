@@ -13,13 +13,13 @@ public class Earth extends Entity
   private int health;
   private boolean isDestroyed;
 
-  public Earth( float x, float y )
+  public Earth( float x, float y, int health )
   {
     super( x, y );
     setRadius( 40 );
     boundingCircle = new Circle( x, y+getRadius(), getRadius()-2 );
 
-    health = 5;
+    this.health = health;
     isDestroyed = false;
   }
   
@@ -37,7 +37,14 @@ public class Earth extends Entity
   @Override
   public TextureRegion getTexture()
   {
-    return AssetLoader.earth;
+    switch( health )
+    {
+      case 4: return AssetLoader.worldDamage1;
+      case 3: return AssetLoader.worldDamage2;
+      case 2: return AssetLoader.worldDamage3;
+      case 1: return AssetLoader.worldDamage4;
+    }
+    return AssetLoader.world;
   }
 
   @Override
@@ -49,7 +56,7 @@ public class Earth extends Entity
   public void doDamage()
   {
     health--;
-    if( health < 0 )
+    if( health <= 0 )
     {
       isDestroyed = true;
     }

@@ -7,7 +7,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -39,7 +38,6 @@ public class GameScreen extends GeneralGameScreen
   private ArrayList<ColorButton> currentColors;
   
   private Stage uiStage;
-    private ImageButton homeButton;
   
   private Label scoreLabel;
   private TextArea debugLogger;
@@ -47,16 +45,19 @@ public class GameScreen extends GeneralGameScreen
   private Slider ballsSpeedSlider;
   
   BallFactory ballFactory;
+  
+  private boolean debug;
 
   public GameScreen( ChromatixGame game )
   {
     super( game );
-    shield = new Shield( new CColor( CColor.BLUE ) );
-    earth = new Earth( shield.getX(), shield.getY()+shield.getRadius()/2 + 10 );
+    debug = false;
+    shield = new Shield( new CColor( CColor.CYAN ) );
+    earth = new Earth( shield.getX(), shield.getY()+shield.getRadius()/2 + 10, 5 );
     
     currentColors = new ArrayList<ColorButton>();
-    currentColors.add( new ColorButton( new CColor( CColor.RED ) ) );
-    currentColors.add( new ColorButton( new CColor( CColor.BLUE ) ) );
+    currentColors.add( new ColorButton( new CColor( CColor.CYAN ) ) );
+    currentColors.add( new ColorButton( new CColor( CColor.PURPLE ) ) );
     currentColors.add( new ColorButton( new CColor( CColor.GREEN ) ) );
     
     uiStage = new Stage( getViewport() );
@@ -65,9 +66,8 @@ public class GameScreen extends GeneralGameScreen
     multi.addProcessor( new GameScreenInputHandler( this ) );
     Gdx.input.setInputProcessor( multi );
     initGUI();
-    GameData.SCORE = 0;
     
-    ballFactory = new BallFactory( shield, earth, 8 );
+    ballFactory = new BallFactory( this, 8 );
   }
   
   public void initGUI()
@@ -81,7 +81,7 @@ public class GameScreen extends GeneralGameScreen
     
     for( int i = 0; i < currentColors.size(); i++ )
     {
-      float padding = (Constants.WIDTH - ((currentColors.size()) * currentColors.get( i ).getWidth())) / ((currentColors.size() +1)*2);
+//      float padding = (Constants.WIDTH - ((currentColors.size()) * currentColors.get( i ).getWidth())) / ((currentColors.size() +1)*2);
       ImageButton btn = currentColors.get( i );
       btn.addListener( new ColorButtonListener() );
       btn.setWidth( Constants.WIDTH / currentColors.size() );
@@ -93,22 +93,20 @@ public class GameScreen extends GeneralGameScreen
     scoreLabel = new Label("Score: 0", new LabelStyle( new BitmapFont(), new Color(255, 255, 255, 1)) );
     scoreLabel.setPosition(Constants.WIDTH - 100, Constants.HEIGHT - 25);
     uiStage.addActor( scoreLabel );
-        
-    homeButton = new ImageButton( AssetLoader.kenney_ui_home_half_transparent );
-    homeButton.setY( 796 );
-//    homeButton.
-    uiStage.addActor( homeButton );
     
     // DEBUG
-    ballsSpeedSlider = new Slider( 0, 1000, 30, false, AssetLoader.uiSkin );
-    ballsSpeedSlider.setPosition( Constants.WIDTH / 2 - ballsSpeedSlider.getWidth() / 2, Constants.HEIGHT-50 );
-    ballsSpeedSlider.setValue( 100 );
-    uiStage.addActor( ballsSpeedSlider );
-    debugLogger = new TextArea( "123", AssetLoader.uiSkin );
-    debugLogger.setPosition( 0, Constants.HEIGHT-200 );
-    debugLogger.setHeight( 200 );
-    debugLogger.setVisible( false );
-    uiStage.addActor( debugLogger );
+    if( debug )
+    {
+      ballsSpeedSlider = new Slider( 0, 1000, 30, false, AssetLoader.uiSkin );
+      ballsSpeedSlider.setPosition( Constants.WIDTH / 2 - ballsSpeedSlider.getWidth() / 2, Constants.HEIGHT-50 );
+      ballsSpeedSlider.setValue( 100 );
+      uiStage.addActor( ballsSpeedSlider );
+      debugLogger = new TextArea( "123", AssetLoader.uiSkin );
+      debugLogger.setPosition( 0, Constants.HEIGHT-200 );
+      debugLogger.setHeight( 200 );
+      debugLogger.setVisible( false );
+      uiStage.addActor( debugLogger );
+    }
   }
 
   
@@ -123,21 +121,23 @@ public class GameScreen extends GeneralGameScreen
     
     getBatch().setProjectionMatrix(getCamera().combined);
 
+    getBatch().begin();
+    getBatch().draw( AssetLoader.gameBackground, 0, 0, 480, 848 );
+
     if( !earth.isDestroyed() )
     {
-      getBatch().begin();
       
       getBatch().draw( earth.getTexture(), earth.getX() - earth.getRadius(), earth.getY(), earth.getRadius() * 2, earth.getRadius() * 2 );
       getBatch().draw( shield.getTexture(), shield.getX() - shield.getRadius(), shield.getY(), shield.getRadius()*2, shield.getRadius()*2 );
       
       ballFactory.draw( getBatch() );
       
-      getBatch().draw( AssetLoader.buttonBg, 0, 0, Constants.WIDTH, 150 );
-      getBatch().end();
-      update( delta );
+//      getBatch().draw( AssetLoader.buttonBg, 0, 0, Constants.WIDTH, 150 );
     }
+    getBatch().end();
     
     uiStage.draw();
+    update( delta );
   }
   
   public void update( float delta )
@@ -145,16 +145,20 @@ public class GameScreen extends GeneralGameScreen
     if( GameState.isRunning() )
     {
       ballFactory.update( delta );
-      scoreLabel.setText( "Score: "+GameData.SCORE );
-      GameData.DEBUG_BALL_SPEED = ballsSpeedSlider.getValue();
+      scoreLabel.setText( "Score: "+ this.getGameData().getScore() );
+      if( debug )
+      {
+        GameData.DEBUG_BALL_SPEED = ballsSpeedSlider.getValue();
+      }
       if( earth.isDestroyed() )
       {
         GameState.setGameOver();
+        setGameOver();
       }
     }
     else if( GameState.isGameOver() )
     {
-      setGameOver();
+      
     }
     
   }
@@ -166,7 +170,7 @@ public class GameScreen extends GeneralGameScreen
       a.setVisible( false );
     }
     
-    Label resetLabel = new Label( GameData.SCORE+"", AssetLoader.uiSkin );
+    Label resetLabel = new Label( this.getGameData().getScore() + "", AssetLoader.uiSkin );
     resetLabel.setWidth( 200 );
     resetLabel.setHeight( 200 );
     resetLabel.setFontScale( 3f );
@@ -210,9 +214,16 @@ public class GameScreen extends GeneralGameScreen
     return currentColors;
   }
   
+  @Override
   public Shield getShield()
   {
     return shield;
+  }
+
+  @Override
+  public Earth getEarth()
+  {
+    return earth;
   }
   
 }

@@ -9,21 +9,18 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.strattegic.chromatix.game.entities.Ball;
 import com.strattegic.chromatix.game.entities.CColor;
-import com.strattegic.chromatix.game.entities.Earth;
-import com.strattegic.chromatix.game.entities.Shield;
+import com.strattegic.chromatix.game.screens.GeneralGameScreen;
 
 public class BallFactory
 {
   protected int maxBalls = 0;
   ArrayList<Ball> balls;
-  Shield shield;
-  Earth earth;
+  GeneralGameScreen screen;
   
-  public BallFactory( Shield shield, Earth earth, int maxBalls )
+  public BallFactory( GeneralGameScreen screen, int maxBalls )
   {
     this.maxBalls = maxBalls;
-    this.shield = shield;
-    this.earth = earth;
+    this.screen = screen;
     balls = new ArrayList<Ball>();
     init();
   }
@@ -41,21 +38,21 @@ public class BallFactory
     {
       Ball b = i.next(); // must be called before you can call i.remove()
       b.update( delta );
-      if( Intersector.overlaps( (Circle) b.getBoundingShape(), (Circle) shield.getBoundingShape() )
-          && !Intersector.overlaps( (Circle) b.getBoundingShape(), shield.getBoundingShapeInner() ) )
+      if( Intersector.overlaps( (Circle) b.getBoundingShape(), (Circle) screen.getShield().getBoundingShape() )
+          && !Intersector.overlaps( (Circle) b.getBoundingShape(), screen.getShield().getBoundingShapeInner() ) )
       {
         // A Ball hit the shield, now let us look up what to do
-        if( b.isShieldEffective( shield ) )
+        if( b.isShieldEffective( screen.getShield() ) )
         {
-          GameData.addScore( b.getScorePoints() );
+          screen.getGameData().setScore( screen.getGameData().getScore() + b.getScorePoints() );
           removeBall = true;
         }
         // When the colors didn't match, the object is falling through
       }
-      if( Intersector.overlaps( (Circle) b.getBoundingShape(), (Circle) earth.getBoundingShape() ) )
+      if( Intersector.overlaps( (Circle) b.getBoundingShape(), (Circle) screen.getEarth().getBoundingShape() ) )
       {
         // the current object hit the earth
-//        earth.doDamage();
+        screen.getEarth().doDamage();
         removeBall = true;
       }
       
@@ -66,7 +63,7 @@ public class BallFactory
       }
     }
     
-    if( balls.size() < 8 )
+    if( balls.size() < maxBalls )
     {
       double[] unitPool = new double[ balls.size() ];
       for( int j = 0; j < balls.size(); j++ )
@@ -80,10 +77,11 @@ public class BallFactory
       while( !ballFound )
       {
         Vector2 rndPos = Utils.getRandomBallPosition();
-        int ballType = Utils.rand( 0, 1 );
-        b = new Ball( rndPos.x, rndPos.y, earth.getMiddlePos().x, earth.getMiddlePos().y, Constants.BALL_SIZES[ Utils.rand( 0, Constants.BALL_SIZES.length-1 ) ], ballType );
+//        int ballType = Utils.rand( 0, 1 );
+        int ballType = Ball.BALL_TYPE__NORMAL;
+        b = new Ball( rndPos.x, rndPos.y, screen.getEarth().getMiddlePos().x, screen.getEarth().getMiddlePos().y, Constants.BALL_SIZES[ Utils.rand( 0, Constants.BALL_SIZES.length-1 ) ], ballType );
         // TODO: Color
-        b.setColor( new CColor( CColor.RED ) );
+        b.setColor( new CColor( CColor.PURPLE ) );
 //        b.setColor( currentColors.get( Utils.rand( 0, currentColors.size() - 1 ) ).getButtonColor() );
         
         ballFound = true;
