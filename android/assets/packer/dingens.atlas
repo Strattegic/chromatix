@@ -6,147 +6,140 @@ filter: MipMapLinearNearest,Nearest
 repeat: none
 button_bottom_cyan
   rotate: false
-  xy: 327, 65
+  xy: 705, 652
   size: 46, 46
   orig: 46, 46
   offset: 0, 0
   index: -1
 button_bottom_green
   rotate: false
-  xy: 939, 963
+  xy: 807, 755
   size: 46, 46
   orig: 46, 46
   offset: 0, 0
   index: -1
 button_bottom_grey
   rotate: false
-  xy: 485, 195
+  xy: 104, 57
   size: 46, 46
   orig: 46, 46
   offset: 0, 0
   index: -1
 button_bottom_orange
   rotate: false
-  xy: 112, 9
+  xy: 485, 329
   size: 46, 46
   orig: 46, 46
   offset: 0, 0
   index: -1
 button_bottom_purple
   rotate: false
-  xy: 373, 113
+  xy: 925, 975
   size: 47, 46
   orig: 47, 46
   offset: 0, 0
   index: -1
 button_bottom_yellow
   rotate: false
-  xy: 422, 113
+  xy: 587, 432
   size: 46, 46
   orig: 46, 46
   offset: 0, 0
   index: -1
 chromatix_logo
   rotate: false
-  xy: 2, 57
-  size: 323, 54
-  orig: 323, 54
+  xy: 2, 105
+  size: 323, 66
+  orig: 323, 66
   offset: 0, 0
   index: -1
-colors_bottom
+enemy_cyan
   rotate: false
-  xy: 2, 113
-  size: 369, 46
-  orig: 369, 46
+  xy: 437, 140
+  size: 27, 31
+  orig: 27, 31
   offset: 0, 0
   index: -1
 enemy_purple
   rotate: false
-  xy: 375, 76
-  size: 30, 35
-  orig: 30, 35
+  xy: 925, 942
+  size: 27, 31
+  orig: 27, 31
+  offset: 0, 0
+  index: -1
+enemy_yellow
+  rotate: false
+  xy: 974, 990
+  size: 27, 31
+  orig: 27, 31
   offset: 0, 0
   index: -1
 game_bg
   rotate: false
-  xy: 2, 161
+  xy: 2, 173
   size: 481, 848
   orig: 481, 848
   offset: 0, 0
   index: -1
 score_top_bg
   rotate: false
-  xy: 2, 2
+  xy: 327, 118
   size: 108, 53
   orig: 108, 53
   offset: 0, 0
   index: -1
-shield
+shield_cyan
   rotate: false
-  xy: 485, 791
+  xy: 485, 803
+  size: 218, 218
+  orig: 218, 218
+  offset: 0, 0
+  index: -1
+shield_purple
+  rotate: false
+  xy: 485, 583
+  size: 218, 218
+  orig: 218, 218
+  offset: 0, 0
+  index: -1
+shield_yellow
+  rotate: false
+  xy: 705, 803
   size: 218, 218
   orig: 218, 218
   offset: 0, 0
   index: -1
 world
   rotate: false
-  xy: 705, 792
+  xy: 485, 480
   size: 100, 101
   orig: 100, 101
   offset: 0, 0
   index: -1
-world_damage
-  rotate: false
-  xy: 485, 668
-  size: 123, 121
-  orig: 123, 121
-  offset: 0, 0
-  index: 4
-world_damage
-  rotate: false
-  xy: 705, 895
-  size: 123, 114
-  orig: 123, 114
-  offset: 0, 0
-  index: 3
-world_damage
-  rotate: false
-  xy: 485, 552
-  size: 116, 114
-  orig: 116, 114
-  offset: 0, 0
-  index: 2
-world_damage
-  rotate: false
-  xy: 830, 898
-  size: 107, 111
-  orig: 107, 111
-  offset: 0, 0
-  index: 1
 world_damage_test
   rotate: false
-  xy: 485, 449
+  xy: 705, 700
   size: 100, 101
   orig: 100, 101
   offset: 0, 0
   index: 1
 world_damage_test
   rotate: false
-  xy: 485, 346
+  xy: 2, 2
   size: 100, 101
   orig: 100, 101
   offset: 0, 0
   index: 2
 world_damage_test
   rotate: false
-  xy: 485, 243
+  xy: 485, 377
   size: 100, 101
   orig: 100, 101
   offset: 0, 0
   index: 3
 world_damage_test
   rotate: false
-  xy: 610, 688
+  xy: 587, 480
   size: 100, 101
   orig: 100, 101
   offset: 0, 0

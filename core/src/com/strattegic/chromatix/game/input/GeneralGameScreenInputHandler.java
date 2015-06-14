@@ -1,16 +1,15 @@
 package com.strattegic.chromatix.game.input;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.strattegic.chromatix.game.screens.GameScreen;
+import com.strattegic.chromatix.game.screens.GeneralGameScreen;
 
-public class GameScreenInputHandler implements InputProcessor
+public class GeneralGameScreenInputHandler implements InputProcessor
 {
-  GameScreen gameScreen;
+  private GeneralGameScreen screen;
 
-  public GameScreenInputHandler( GameScreen gameScreen )
+  public GeneralGameScreenInputHandler( GeneralGameScreen screen )
   {
-    this.gameScreen = gameScreen;
+    this.screen = screen;
   }
 
   @Override
@@ -23,18 +22,7 @@ public class GameScreenInputHandler implements InputProcessor
   @Override
   public boolean keyUp( int keycode )
   {
-    if( keycode == Input.Keys.NUM_1 && gameScreen.getButtonGroup().getColorArray().size() >= 1 )
-    {
-      gameScreen.getShield().setColor( gameScreen.getButtonGroup().getColorArray().get( 0 ) );
-    }
-    else if( keycode == Input.Keys.NUM_2 && gameScreen.getButtonGroup().getColorArray().size() >= 2 )
-    {
-      gameScreen.getShield().setColor( gameScreen.getButtonGroup().getColorArray().get( 1 ) );
-    }
-    else if( keycode == Input.Keys.NUM_3 && gameScreen.getButtonGroup().getColorArray().size() >= 3 )
-    {
-      gameScreen.getShield().setColor( gameScreen.getButtonGroup().getColorArray().get( 2 ) );
-    }
+    // TODO Auto-generated method stub
     return false;
   }
 

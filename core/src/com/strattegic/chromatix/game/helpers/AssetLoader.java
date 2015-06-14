@@ -1,11 +1,16 @@
 package com.strattegic.chromatix.game.helpers;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -32,8 +37,12 @@ public class AssetLoader
   public static TextureRegion worldDamage3;
   public static TextureRegion worldDamage4;
   
-  public static TextureRegion shield;
+  public static TextureRegion shieldCyan;
+  public static TextureRegion shieldPurple;
+  public static TextureRegion shieldYellow;
 	public static TextureRegion enemyPurple;
+	public static TextureRegion enemyCyan;
+	public static TextureRegion enemyYellow;
 	public static TextureRegionDrawable colorButtonPurple;
   public static TextureRegionDrawable colorButtonCyan;
   public static TextureRegionDrawable colorButtonGreen;
@@ -49,11 +58,22 @@ public class AssetLoader
 	public static Sound SOUND_CLICK;
 	public static Music MUSIC_SOLEM_VOW;
 
+  private static ArrayList<FontStorage> listOfFonts;
 
+  public static class FONT_NAMES
+  {
+    public static final String FONT_MAIN = "fonts/crew36.TTF";
+  }
 		
   public static TextureRegion getBall( Ball ball )
   {
-    return enemyPurple;
+    switch( ball.getColor().getId() )
+    {
+      case CColor.CYAN: return enemyCyan;
+      case CColor.YELLOW: return enemyYellow;
+      case CColor.PURPLE: return enemyPurple;
+      default: return enemyCyan;
+    }
   }
 	
 	public static TextureRegionDrawable getColorButton( CColor color )
@@ -72,18 +92,56 @@ public class AssetLoader
 	
 	public static TextureRegion getShieldTexture( CColor color )
   {
-    return shield;
+	  switch( color.getId() )
+	  {
+      case CColor.CYAN: return shieldCyan;
+      case CColor.YELLOW: return shieldYellow;
+      case CColor.PURPLE: return shieldPurple;
+      default: return shieldCyan;
+	  }
   }
-	
+
+  /**
+   * Generates a Font with the given size and name.
+   * No Font is ever generated twice. Every size and name combination is stored.
+   * @param fontName
+   * @param size
+   * @return
+   */
+  public static BitmapFont getFont( String fontName, float size )
+  {
+    for ( FontStorage fs : listOfFonts )
+    {
+      if ( fs.getFontName().equals( fontName ) && size == fs.getSize() )
+      {
+        return fs.getBitmapFont();
+      }
+    }
+    FreeTypeFontGenerator generator = new FreeTypeFontGenerator( Gdx.files.internal( fontName ) );
+    FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+    parameter.size = (int) Math.ceil( size );
+    parameter.minFilter = TextureFilter.Nearest;
+    parameter.magFilter = TextureFilter.MipMapLinearNearest;
+    BitmapFont bitmapFont = generator.generateFont( parameter ); // font size 12
+                                                                 // pixels
+    generator.dispose();
+    listOfFonts.add( new FontStorage( fontName, bitmapFont, size ) );
+    return bitmapFont;
+  }
+
 	public static void load() 
 	{
 		atlas = new TextureAtlas(Gdx.files.internal("packer/dingens.atlas"));
 
     uiSkin = new Skin( Gdx.files.internal("skin/uiskin.json") );
 		enemyPurple = atlas.findRegion( "enemy_purple" );
+		enemyCyan = atlas.findRegion( "enemy_cyan" );
+		enemyYellow = atlas.findRegion( "enemy_yellow" );
 		world = atlas.findRegion( "world" );		
-		logo = atlas.findRegion( "chromatix_white" );
-		shield = atlas.findRegion( "shield" );
+		logo = atlas.findRegion( "chromatix_logo" );
+		shieldCyan = atlas.findRegion( "shield_cyan" );
+		shieldPurple = atlas.findRegion( "shield_purple" );
+		shieldYellow = atlas.findRegion( "shield_yellow" );
 		gameBackground = atlas.findRegion( "game_bg" );
 		
 		colorButtonPurple = new TextureRegionDrawable( atlas.findRegion( "button_bottom_purple" ) );
@@ -98,19 +156,8 @@ public class AssetLoader
 		worldDamage3 = atlas.findRegion( "world_damage_test", 3 );
 		worldDamage4 = atlas.findRegion( "world_damage_test", 4 );
 		
-		font_quicksand = new BitmapFont( Gdx.files.internal( "font/generated_quicksand.fnt" ) );
-		
-//		textButtonStyle = new TextButtonStyle();
-//		textButtonStyle.up = new TextureRegionDrawable( atlas.findRegion( "grey_button10" ) );
-//		textButtonStyle.down = new TextureRegionDrawable( atlas.findRegion( "grey_button11" ) );
-//		textButtonStyle.font = new BitmapFont();
-//		textButtonStyle.fontColor = CColor.COLOR_BG;
-		
-//		checkboxStyle = new CheckBoxStyle();
-//		checkboxStyle.checkboxOn = new TextureRegionDrawable( atlas.findRegion( "grey_boxCheckmark" ) );
-//		checkboxStyle.checkboxOff = new TextureRegionDrawable( atlas.findRegion( "grey_boxCross" ) );
-//		checkboxStyle.font = new BitmapFont();
-				
+		font_quicksand = new BitmapFont( Gdx.files.internal( "fonts/generated_quicksand.fnt" ) );
+						
 		SOUND_CLICK = Gdx.audio.newSound(Gdx.files.internal("sounds/menu/click.wav"));
 		
 		MUSIC_SOLEM_VOW = Gdx.audio.newMusic( Gdx.files.internal("sounds/Solemn_Vow_tabletopaudio_intro.mp3") );
@@ -118,6 +165,8 @@ public class AssetLoader
 		GAME_MODE_ARCADE = atlas.findRegion( "mode_arcade" );
 		GAME_MODE_CHALLENGE = atlas.findRegion( "mode_challenge" );
 		GAME_MODE_SECRET = atlas.findRegion( "mode_secret" );
+		
+		listOfFonts = new ArrayList<FontStorage>();
 	}
 
 }

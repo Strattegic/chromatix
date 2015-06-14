@@ -1,44 +1,35 @@
 package com.strattegic.chromatix.game.screens;
 
-import java.util.ArrayList;
+import javafx.scene.shape.MoveTo;
+
+import javax.sound.midi.Sequence;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.strattegic.chromatix.game.ChromatixGame;
-import com.strattegic.chromatix.game.entities.CColor;
-import com.strattegic.chromatix.game.entities.ColorButton;
-import com.strattegic.chromatix.game.entities.Earth;
-import com.strattegic.chromatix.game.entities.Shield;
 import com.strattegic.chromatix.game.helpers.AssetLoader;
 import com.strattegic.chromatix.game.helpers.BallFactory;
 import com.strattegic.chromatix.game.helpers.Constants;
 import com.strattegic.chromatix.game.helpers.GameData;
 import com.strattegic.chromatix.game.helpers.GameState;
-import com.strattegic.chromatix.game.input.GameScreenInputHandler;
 
 public class GameScreen extends GeneralGameScreen
 {
-  private Shield shield;
-  private Earth earth;
-  private ArrayList<ColorButton> currentColors;
-  
-  private Stage uiStage;
-  
+    
   private Label scoreLabel;
   private TextArea debugLogger;
   
@@ -48,51 +39,27 @@ public class GameScreen extends GeneralGameScreen
   
   private boolean debug;
 
+  /**
+   * Screen for the main game (arcade)
+   * @param game
+   */
   public GameScreen( ChromatixGame game )
   {
     super( game );
+    getGameData().setScore( 10034 );
     debug = false;
-    shield = new Shield( new CColor( CColor.CYAN ) );
-    earth = new Earth( shield.getX(), shield.getY()+shield.getRadius()/2 + 10, 5 );
     
-    currentColors = new ArrayList<ColorButton>();
-    currentColors.add( new ColorButton( new CColor( CColor.CYAN ) ) );
-    currentColors.add( new ColorButton( new CColor( CColor.PURPLE ) ) );
-    currentColors.add( new ColorButton( new CColor( CColor.GREEN ) ) );
-    
-    uiStage = new Stage( getViewport() );
-    InputMultiplexer multi = new InputMultiplexer();
-    multi.addProcessor( uiStage );
-    multi.addProcessor( new GameScreenInputHandler( this ) );
-    Gdx.input.setInputProcessor( multi );
     initGUI();
     
     ballFactory = new BallFactory( this, 8 );
+    
   }
   
   public void initGUI()
-  {
-//    float alignedXPos = Constants.WIDTH / (currentColors.size()+1);
-    
-    Table btnTableBottom = new Table();
-    btnTableBottom.setWidth( Constants.WIDTH );
-    btnTableBottom.setPosition( 0, 70 );
-//    btnTableBottom.setDebug( true );
-    
-    for( int i = 0; i < currentColors.size(); i++ )
-    {
-//      float padding = (Constants.WIDTH - ((currentColors.size()) * currentColors.get( i ).getWidth())) / ((currentColors.size() +1)*2);
-      ImageButton btn = currentColors.get( i );
-      btn.addListener( new ColorButtonListener() );
-      btn.setWidth( Constants.WIDTH / currentColors.size() );
-//      btnTableBottom.add( btn ).padLeft( padding ).padRight( padding );
-      btnTableBottom.add( btn ).size( Constants.WIDTH / currentColors.size(), 50 );
-    }
-    uiStage.addActor( btnTableBottom );
-    
+  {    
     scoreLabel = new Label("Score: 0", new LabelStyle( new BitmapFont(), new Color(255, 255, 255, 1)) );
     scoreLabel.setPosition(Constants.WIDTH - 100, Constants.HEIGHT - 25);
-    uiStage.addActor( scoreLabel );
+    getUiStage().addActor( scoreLabel );
     
     // DEBUG
     if( debug )
@@ -100,12 +67,12 @@ public class GameScreen extends GeneralGameScreen
       ballsSpeedSlider = new Slider( 0, 1000, 30, false, AssetLoader.uiSkin );
       ballsSpeedSlider.setPosition( Constants.WIDTH / 2 - ballsSpeedSlider.getWidth() / 2, Constants.HEIGHT-50 );
       ballsSpeedSlider.setValue( 100 );
-      uiStage.addActor( ballsSpeedSlider );
+      getUiStage().addActor( ballsSpeedSlider );
       debugLogger = new TextArea( "123", AssetLoader.uiSkin );
       debugLogger.setPosition( 0, Constants.HEIGHT-200 );
       debugLogger.setHeight( 200 );
       debugLogger.setVisible( false );
-      uiStage.addActor( debugLogger );
+      getUiStage().addActor( debugLogger );
     }
   }
 
@@ -124,24 +91,30 @@ public class GameScreen extends GeneralGameScreen
     getBatch().begin();
     getBatch().draw( AssetLoader.gameBackground, 0, 0, 480, 848 );
 
-    if( !earth.isDestroyed() )
+    if( GameState.isRunning() )
     {
-      
-      getBatch().draw( earth.getTexture(), earth.getX() - earth.getRadius(), earth.getY(), earth.getRadius() * 2, earth.getRadius() * 2 );
-      getBatch().draw( shield.getTexture(), shield.getX() - shield.getRadius(), shield.getY(), shield.getRadius()*2, shield.getRadius()*2 );
+      getBatch().draw( getEarth().getTexture(), getEarth().getX() - getEarth().getRadius(), getEarth().getY(), getEarth().getRadius() * 2, getEarth().getRadius() * 2 );
       
       ballFactory.draw( getBatch() );
       
 //      getBatch().draw( AssetLoader.buttonBg, 0, 0, Constants.WIDTH, 150 );
     }
-    getBatch().end();
     
-    uiStage.draw();
+    // The shield will be rendered even when the game is lost
+    getBatch().draw( getShield().getTexture(), getShield().getX() - getShield().getRadius(), getShield().getY(), getShield().getRadius()*2, getShield().getRadius()*2 );
+    getBatch().end();
+
     update( delta );
+    getUiStage().draw();
   }
   
   public void update( float delta )
-  {    
+  {   
+    getUiStage().act( delta );
+    // TODO LÖSCHEN!
+    setGameOver();
+    // TODO LÖSCHEN!
+    
     if( GameState.isRunning() )
     {
       ballFactory.update( delta );
@@ -150,80 +123,73 @@ public class GameScreen extends GeneralGameScreen
       {
         GameData.DEBUG_BALL_SPEED = ballsSpeedSlider.getValue();
       }
-      if( earth.isDestroyed() )
+      if( getEarth().isDestroyed() )
       {
-        GameState.setGameOver();
         setGameOver();
       }
     }
     else if( GameState.isGameOver() )
     {
-      
     }
     
   }
 
+  /**
+   * Sets the gameState to "gameOver" and updates the GUI to accommodate for it
+   */
   private void setGameOver()
   {
-    for( Actor a : uiStage.getActors() )
+    GameState.setGameOver();
+    for( Actor a : getUiStage().getActors() )
     {
       a.setVisible( false );
     }
+        
+    LabelStyle scoreStyle = new LabelStyle( AssetLoader.getFont( AssetLoader.FONT_NAMES.FONT_MAIN, 25 ), Color.WHITE );
+    Label scoreLabel = new Label( getGameData().getScore() + "", scoreStyle );
+//    resetLabel.setFontScale( 3f );
+    scoreLabel.setAlignment( Align.center );
+    scoreLabel.setPosition( getShield().getX() - scoreLabel.getWidth() / 2, getShield().getY() - scoreLabel.getHeight() + 10 );
+    scoreLabel.addListener( new ResetButtonListener() );
     
-    Label resetLabel = new Label( this.getGameData().getScore() + "", AssetLoader.uiSkin );
-    resetLabel.setWidth( 200 );
-    resetLabel.setHeight( 200 );
-    resetLabel.setFontScale( 3f );
-    resetLabel.setAlignment( Align.center );
-    resetLabel.setPosition( Constants.WIDTH / 2- 100, Constants.HEIGHT / 2 - 100 );
-    resetLabel.addListener( new ResetButtonListener() );
-    uiStage.addActor( resetLabel );
-    uiStage.setDebugAll( false );
+    //TODO ANIMATION!
+    LabelStyle scoreNewStyle = new LabelStyle( AssetLoader.getFont( AssetLoader.FONT_NAMES.FONT_MAIN, 17 ), Color.YELLOW );
+    Label newHighscoreLabel = new Label( "new Highscore", scoreNewStyle );
+    newHighscoreLabel.setPosition( getShield().getX() - newHighscoreLabel.getWidth() / 2, scoreLabel.getY() - 25 );
+    
+    MoveToAction action = Actions.action(MoveToAction.class);
+    action.setPosition(100, 100);
+    action.setDuration(5);
+    action.setInterpolation(Interpolation.bounceOut);
+    newHighscoreLabel.addAction(action);
+        
+    getUiStage().addActor( scoreLabel );
+    getUiStage().addActor( newHighscoreLabel );
+    getUiStage().setDebugAll( false );
   }
   
   private class ResetButtonListener extends ClickListener
   {
-
     @Override
     public void clicked( InputEvent event, float x, float y )
     {
       getGame().setScreen( new GameScreen( getGame() ) );
     }
+  }
+
+  @Override
+  public void hide()
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void dispose()
+  {
+    // TODO Auto-generated method stub
     
   }
   
-  private class ColorButtonListener extends ChangeListener
-  {
-
-    @Override
-    public void changed( ChangeEvent event, Actor actor )
-    {
-      for( ColorButton b : currentColors )
-      {
-        if( b == actor )
-        {
-          shield.setColor( b.getButtonColor() );
-        }
-      }
-    }
-
-  }
-  
-  public ArrayList<ColorButton> getButtons()
-  {
-    return currentColors;
-  }
-  
-  @Override
-  public Shield getShield()
-  {
-    return shield;
-  }
-
-  @Override
-  public Earth getEarth()
-  {
-    return earth;
-  }
   
 }

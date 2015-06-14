@@ -81,8 +81,8 @@ public class BallFactory
         int ballType = Ball.BALL_TYPE__NORMAL;
         b = new Ball( rndPos.x, rndPos.y, screen.getEarth().getMiddlePos().x, screen.getEarth().getMiddlePos().y, Constants.BALL_SIZES[ Utils.rand( 0, Constants.BALL_SIZES.length-1 ) ], ballType );
         // TODO: Color
-        b.setColor( new CColor( CColor.PURPLE ) );
-//        b.setColor( currentColors.get( Utils.rand( 0, currentColors.size() - 1 ) ).getButtonColor() );
+//        b.setColor( new CColor( CColor.PURPLE ) );
+        b.setColor( screen.getButtonGroup().getColorArray().get( Utils.rand( 0, screen.getButtonGroup().getColorArray().size() - 1 ) ) );
         
         ballFound = true;
         for( double d : unitPool )

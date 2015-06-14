@@ -56,4 +56,11 @@ public class CColor
   {
     return colorId;
   }
+
+  @Override
+  public String toString()
+  {
+    // TODO Auto-generated method stub
+    return getName( colorId );
+  }  
 }
