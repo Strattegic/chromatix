@@ -21,7 +21,7 @@ public class StarBackground
   private int minStars = 200;
   
   private int alphaMin = 0;
-  private int alphaMax = 6;
+  private int alphaMax = 4;
   
   private int widthMin = 1;
   private int widthMax = 3;
@@ -37,7 +37,7 @@ public class StarBackground
   // Orientation in degrees
   // 90 means right
   // 180 bottom and so on
-  private int flyOrientation = 90;
+  private int flyOrientation = 0;
   
   /**
    * Initiates a StarBackground with the default values.
@@ -102,63 +102,211 @@ public class StarBackground
     }
   }
 
+  /**
+   * @return the maxStars
+   */
   public int getMaxStars()
   {
     return maxStars;
   }
 
+  /**
+   * @param maxStars the maxStars to set
+   */
   public void setMaxStars( int maxStars )
   {
     this.maxStars = maxStars;
   }
 
+  /**
+   * @return the minStars
+   */
   public int getMinStars()
   {
     return minStars;
   }
 
+  /**
+   * @param minStars the minStars to set
+   */
   public void setMinStars( int minStars )
   {
     this.minStars = minStars;
   }
 
+  /**
+   * @return the alphaMin
+   */
   public int getAlphaMin()
   {
     return alphaMin;
   }
 
+  /**
+   * @param alphaMin the alphaMin to set
+   */
   public void setAlphaMin( int alphaMin )
   {
     this.alphaMin = alphaMin;
   }
 
+  /**
+   * @return the alphaMax
+   */
   public int getAlphaMax()
   {
     return alphaMax;
   }
 
+  /**
+   * @param alphaMax the alphaMax to set
+   */
   public void setAlphaMax( int alphaMax )
   {
     this.alphaMax = alphaMax;
   }
 
+  /**
+   * @return the widthMin
+   */
   public int getWidthMin()
   {
     return widthMin;
   }
 
+  /**
+   * @param widthMin the widthMin to set
+   */
   public void setWidthMin( int widthMin )
   {
     this.widthMin = widthMin;
   }
 
+  /**
+   * @return the widthMax
+   */
   public int getWidthMax()
   {
     return widthMax;
   }
 
+  /**
+   * @param widthMax the widthMax to set
+   */
   public void setWidthMax( int widthMax )
   {
     this.widthMax = widthMax;
+  }
+
+  /**
+   * @return the speedMin
+   */
+  public int getSpeedMin()
+  {
+    return speedMin;
+  }
+
+  /**
+   * @param speedMin the speedMin to set
+   */
+  public void setSpeedMin( int speedMin )
+  {
+    this.speedMin = speedMin;
+  }
+
+  /**
+   * @return the speedMax
+   */
+  public int getSpeedMax()
+  {
+    return speedMax;
+  }
+
+  /**
+   * @param speedMax the speedMax to set
+   */
+  public void setSpeedMax( int speedMax )
+  {
+    this.speedMax = speedMax;
+  }
+
+  /**
+   * @return the bgMinX
+   */
+  public int getBgMinX()
+  {
+    return bgMinX;
+  }
+
+  /**
+   * @param bgMinX the bgMinX to set
+   */
+  public void setBgMinX( int bgMinX )
+  {
+    this.bgMinX = bgMinX;
+  }
+
+  /**
+   * @return the bgMaxX
+   */
+  public int getBgMaxX()
+  {
+    return bgMaxX;
+  }
+
+  /**
+   * @param bgMaxX the bgMaxX to set
+   */
+  public void setBgMaxX( int bgMaxX )
+  {
+    this.bgMaxX = bgMaxX;
+  }
+
+  /**
+   * @return the bgMinY
+   */
+  public int getBgMinY()
+  {
+    return bgMinY;
+  }
+
+  /**
+   * @param bgMinY the bgMinY to set
+   */
+  public void setBgMinY( int bgMinY )
+  {
+    this.bgMinY = bgMinY;
+  }
+
+  /**
+   * @return the bgMaxY
+   */
+  public int getBgMaxY()
+  {
+    return bgMaxY;
+  }
+
+  /**
+   * @param bgMaxY the bgMaxY to set
+   */
+  public void setBgMaxY( int bgMaxY )
+  {
+    this.bgMaxY = bgMaxY;
+  }
+
+  /**
+   * @return the flyOrientation
+   */
+  public int getFlyOrientation()
+  {
+    return flyOrientation;
+  }
+
+  /**
+   * @param flyOrientation the flyOrientation to set
+   */
+  public void setFlyOrientation( int flyOrientation )
+  {
+    this.flyOrientation = flyOrientation;
   }
 }

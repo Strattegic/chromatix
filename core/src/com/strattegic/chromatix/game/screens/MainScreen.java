@@ -1,7 +1,5 @@
 package com.strattegic.chromatix.game.screens;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -9,7 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -21,6 +20,7 @@ import com.strattegic.chromatix.game.ChromatixGame;
 import com.strattegic.chromatix.game.helpers.AssetLoader;
 import com.strattegic.chromatix.game.helpers.Constants;
 import com.strattegic.chromatix.game.helpers.Utils;
+import com.strattegic.chromatix.game.input.MainScreenInputListener;
 import com.strattegic.chromatix.game.screens.background.StarBackground;
 
 public class MainScreen implements Screen
@@ -40,6 +40,8 @@ public class MainScreen implements Screen
   private Table menuTable;
   
   private StarBackground starBackground;
+  
+  private MainScreenInputListener mainScreenInputListener;
 
   public MainScreen( ChromatixGame chromatixGame )
   {
@@ -47,6 +49,8 @@ public class MainScreen implements Screen
     viewport = new FitViewport( Constants.WIDTH, Constants.HEIGHT );
     uiStage = new Stage( viewport );
     starBackground = new StarBackground();
+    Gdx.input.setInputProcessor( uiStage );
+    mainScreenInputListener = new MainScreenInputListener( this );
   }
 
   @Override
@@ -65,8 +69,11 @@ public class MainScreen implements Screen
     LabelStyle menuLabelStyle = new LabelStyle( AssetLoader.getFont( AssetLoader.FONT_NAMES.FONT_MAIN, 25 ), Color.WHITE );
     
     arcadeLabel = new Label( "Arcade", menuLabelStyle );
+    arcadeLabel.addListener( mainScreenInputListener );
     challengeLabel = new Label( "Challenge Mode", menuLabelStyle );
+    challengeLabel.addListener( mainScreenInputListener );
     settingsLabel = new Label( "Settings", menuLabelStyle );
+    settingsLabel.addListener( mainScreenInputListener );
     
     menuTable.add( arcadeLabel ).center();
     menuTable.row();
@@ -98,9 +105,9 @@ public class MainScreen implements Screen
     shapeRenderer.begin( ShapeType.Line );
 //    shapeRenderer.setColor( Color.WHITE );
     shapeRenderer.setColor( 200, 10, 50, 0.5f );
-    shapeRenderer.rect( Constants.WIDTH / 2 - labelBorderWidth / 2, Utils.getStageLocation( arcadeLabel ).y + ((arcadeLabel.getHeight() - labelBorderHeight) / 2), labelBorderWidth, labelBorderHeight );
-    shapeRenderer.rect( Constants.WIDTH / 2 - labelBorderWidth / 2, Utils.getStageLocation( challengeLabel ).y + ((arcadeLabel.getHeight() - labelBorderHeight) / 2), labelBorderWidth, labelBorderHeight );
-    shapeRenderer.rect( Constants.WIDTH / 2 - labelBorderWidth / 2, Utils.getStageLocation( settingsLabel ).y + ((arcadeLabel.getHeight() - labelBorderHeight) / 2), labelBorderWidth, labelBorderHeight );
+//    shapeRenderer.rect( Constants.WIDTH / 2 - labelBorderWidth / 2, Utils.getStageLocation( arcadeLabel ).y + ((arcadeLabel.getHeight() - labelBorderHeight) / 2), labelBorderWidth, labelBorderHeight );
+//    shapeRenderer.rect( Constants.WIDTH / 2 - labelBorderWidth / 2, Utils.getStageLocation( challengeLabel ).y + ((arcadeLabel.getHeight() - labelBorderHeight) / 2), labelBorderWidth, labelBorderHeight );
+//    shapeRenderer.rect( Constants.WIDTH / 2 - labelBorderWidth / 2, Utils.getStageLocation( settingsLabel ).y + ((arcadeLabel.getHeight() - labelBorderHeight) / 2), labelBorderWidth, labelBorderHeight );
 
     starBackground.drawStars( shapeRenderer, delta );
     shapeRenderer.end();
@@ -147,4 +154,35 @@ public class MainScreen implements Screen
     
   }
 
+  /**
+   * @return the arcadeLabel
+   */
+  public Label getArcadeLabel()
+  {
+    return arcadeLabel;
+  }
+
+  /**
+   * @return the challengeLabel
+   */
+  public Label getChallengeLabel()
+  {
+    return challengeLabel;
+  }
+
+  /**
+   * @return the settingsLabel
+   */
+  public Label getSettingsLabel()
+  {
+    return settingsLabel;
+  }
+
+  /**
+   * @return the game
+   */
+  public ChromatixGame getGame()
+  {
+    return game;
+  }
 }
